@@ -24,7 +24,7 @@ class TokenValidationWrapper extends StatelessWidget {
     Future<bool> _isValidToken() async {
       final prefs = await SharedPreferences.getInstance();
       final token = prefs.getString('token');
-      print(token);
+      // print(token);
       return _authService.validateToken(context: context, token: token!);
       // Add your token validation logic here
       // return token != null && token.isNotEmpty;

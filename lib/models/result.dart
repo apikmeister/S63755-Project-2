@@ -32,13 +32,20 @@ class StudentResult {
   String? firstName;
   String? lastName;
   String? className;
+  int? classId;
 
-  StudentResult({this.firstName, this.lastName, this.className});
+  StudentResult({
+    this.firstName,
+    this.lastName,
+    this.className,
+    this.classId,
+  });
 
   StudentResult.fromJson(Map<String, dynamic> json) {
     firstName = json['first_name'];
     lastName = json['last_name'];
     className = json['class_name'];
+    classId = json['class_id'];
   }
 
   Map<String, dynamic> toJson() {
@@ -46,18 +53,29 @@ class StudentResult {
     data['first_name'] = this.firstName;
     data['last_name'] = this.lastName;
     data['class_name'] = this.className;
+    data['class_id'] = this.classId;
     return data;
   }
 }
 
 class Result {
+  int? gradeId;
+  String? subjectId;
   String? subjectName;
   String? gradeLevel;
   String? term;
 
-  Result({this.subjectName, this.gradeLevel, this.term});
+  Result({
+    this.gradeId,
+    this.subjectId,
+    this.subjectName,
+    this.gradeLevel,
+    this.term,
+  });
 
   Result.fromJson(Map<String, dynamic> json) {
+    gradeId = json['gradeID'];
+    subjectId = json['subjectID'];
     subjectName = json['subject_name'];
     gradeLevel = json['grade_level'];
     term = json['term'];
@@ -65,6 +83,8 @@ class Result {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['gradeID'] = this.gradeId;
+    data['subjectID'] = this.subjectId;
     data['subject_name'] = this.subjectName;
     data['grade_level'] = this.gradeLevel;
     data['term'] = this.term;

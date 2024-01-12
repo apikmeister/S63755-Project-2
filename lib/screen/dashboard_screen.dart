@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:school_management/models/school.dart';
 import 'package:school_management/models/student.dart';
@@ -9,6 +10,7 @@ import 'package:school_management/services/school_service.dart';
 import 'package:school_management/services/student_service.dart';
 import 'package:school_management/services/teacher_service.dart';
 import 'package:school_management/utils/token_validator.dart';
+import 'package:school_management/widgets/common/pluto_table.dart';
 
 class DashboardScreen extends StatelessWidget {
   StudentService studentService = StudentService();
@@ -20,9 +22,12 @@ class DashboardScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Future<int> getTotalStudents() async {
-      List<Students> students = await studentService.getAllStudent(
+      List<Students> students =
+          await studentService.getAllStudentWithoutPagination(
         context: context,
-        schoolId: 'SCH001', //TODO: Change this to schoolId
+        schoolId: 'SMKATAHAP', //TODO: Change this to schoolId
+        // page: 1,
+        // rowsPerPage: 10,
       );
       return students.length;
     }
@@ -30,7 +35,7 @@ class DashboardScreen extends StatelessWidget {
     Future<int> getTotalTeachers() async {
       List<Teachers> teachers = await teacherService.getAllTeacher(
         context: context,
-        schoolId: 'SCH001', //TODO: Change this to schoolId
+        schoolId: 'SMKATAHAP', //TODO: Change this to schoolId
       );
       return teachers.length;
     }
@@ -38,7 +43,7 @@ class DashboardScreen extends StatelessWidget {
     Future<School> getSchool() async {
       School school = await schoolService.getSchool(
         context: context,
-        schoolId: 'SCH001', //TODO: Change this to schoolId
+        schoolId: 'SMKATAHAP', //TODO: Change this to schoolId
       );
       return school;
     }
@@ -84,38 +89,49 @@ class DashboardScreen extends StatelessWidget {
                     FutureBuilder(
                       future: getSchool(),
                       builder: (context, snapshot) {
-                        if (snapshot.hasData) {
-                          return Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                snapshot.data!.schoolName!,
-                                style: GoogleFonts.inter(
-                                  fontSize: 21,
-                                  fontWeight: FontWeight.w600,
-                                  color: Colors.black,
-                                ),
-                              ),
-                              // SizedBox(width: 10),
-                              Text(
-                                snapshot.data!.schoolId!,
-                                style: GoogleFonts.inter(
-                                  fontSize: 21,
-                                  fontWeight: FontWeight.w600,
-                                  color: Colors.black,
-                                ),
-                              ),
-                            ],
-                          );
-                        } else {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return LoadingAnimationWidget.prograssiveDots(
+                              color: Colors.purple,
+                              size:
+                                  20); // Show loading indicator while waiting for data
+                        } else if (snapshot.hasError) {
                           return Text(
-                            'School Name',
-                            style: TextStyle(
-                              fontSize: 24,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black,
-                            ),
-                          );
+                              'Error: ${snapshot.error}'); // Show error message if there's an error
+                        } else {
+                          if (snapshot.data == null) {
+                            return Text(
+                              'No data',
+                              style: TextStyle(
+                                fontSize: 24,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black,
+                              ),
+                            );
+                          } else {
+                            return Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  snapshot.data!.schoolName ?? 'No school name',
+                                  style: GoogleFonts.inter(
+                                    fontSize: 21,
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                                // SizedBox(width: 10),
+                                Text(
+                                  snapshot.data!.schoolId ?? 'No school ID',
+                                  style: GoogleFonts.inter(
+                                    fontSize: 21,
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                              ],
+                            );
+                          }
                         }
                       },
                     ),
@@ -159,25 +175,12 @@ class DashboardScreen extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 10),
-                    Card(
-                      child: Text(
-                        'View students',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.black,
-                        ),
-                      ),
+                    OptionMenu(
+                      // getTotalMembers: getTotalStudents,
+                      cardTitle: 'View Students',
                     ),
-                    Card(
-                      child: Text(
-                        'Add students',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.black,
-                        ),
-                      ),
+                    OptionMenu(
+                      cardTitle: 'Add Students',
                     ),
                     const SizedBox(height: 10),
                     Text(
@@ -189,37 +192,12 @@ class DashboardScreen extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 10),
-                    Card(
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          children: [
-                            Text(
-                              'View teachers',
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w500,
-                                color: Colors.black,
-                              ),
-                            ),
-                            Spacer(),
-                            Icon(
-                              Icons.arrow_forward_ios,
-                              size: 18,
-                            ),
-                          ],
-                        ),
-                      ),
+                    OptionMenu(
+                      // getTotalMembers: getTotalTeachers,
+                      cardTitle: 'View Teachers',
                     ),
-                    Card(
-                      child: Text(
-                        'Add teachers',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.black,
-                        ),
-                      ),
+                    OptionMenu(
+                      cardTitle: 'Add Teachers',
                     ),
                   ],
                 ),
@@ -229,6 +207,69 @@ class DashboardScreen extends StatelessWidget {
         ],
       ),
       // ),
+    );
+  }
+}
+
+class OptionMenu extends StatelessWidget {
+  // late Future<int> Function() getTotalMembers;
+  late String cardTitle;
+  late String memberType = cardTitle.split(' ')[1];
+  late String cardType = cardTitle.split(' ')[0];
+  // String title;
+  OptionMenu({
+    super.key,
+    // required this.getTotalMembers,
+    required this.cardTitle,
+    // required this.title,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      behavior: HitTestBehavior.translucent,
+      onTap: () => {
+        Provider.of<MembersProvider>(context, listen: false).setMemberType(
+          memberType.substring(0, memberType.length - 1),
+        ),
+        if (cardType == 'View')
+          {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => LazyRowPagination()))
+          }
+        else
+          {
+            Provider.of<MembersProvider>(context, listen: false).setProcessType(
+              'Add',
+            ),
+            Navigator.pushNamed(
+              context,
+              '/add-member',
+            ),
+          }
+      },
+      child: Card(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            children: [
+              Text(
+                cardTitle,
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.black,
+                ),
+              ),
+              Spacer(),
+              Icon(
+                Icons.arrow_forward_ios,
+                size: 18,
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
@@ -291,39 +332,32 @@ class StatsWidget extends StatelessWidget {
               FutureBuilder(
                 future: getTotalMembers(),
                 builder: (context, snapshot) {
-                  if (snapshot.hasData) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return CircularProgressIndicator(); // Show loading indicator while waiting for data
+                  } else if (snapshot.hasError) {
                     return Text(
-                      snapshot.data.toString(),
-                      style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    );
+                        'Error: ${snapshot.error}'); // Show error message if there's an error
                   } else {
-                    return Text(
-                      '0',
-                      style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    );
+                    if (snapshot.data == null) {
+                      return Text(
+                        'No data',
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      );
+                    } else {
+                      return Text(
+                        snapshot.data.toString(),
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      );
+                    }
                   }
                 },
-                // child: Text(
-                //   getTotalStudents(),
-                //   style: TextStyle(
-                //     fontSize: 24,
-                //     fontWeight: FontWeight.bold,
-                //   ),
-                // ),
               ),
-              // Text(
-              //   '+20 Since last month',
-              //   style: TextStyle(
-              //     fontSize: 12,
-              //     // fontWeight: FontWeight.bold,
-              //   ),
-              // )
             ],
           ),
         ),
