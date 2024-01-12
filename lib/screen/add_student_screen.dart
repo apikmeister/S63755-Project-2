@@ -24,11 +24,11 @@ class AddStudentScreen extends StatelessWidget {
       appBar: AppBar(
         title: isStudent
             ? (processType == 'Edit'
-                ? Text('Edit Student')
-                : Text('Add Student'))
+                ? const Text('Edit Student')
+                : const Text('Add Student'))
             : (processType == 'Edit'
-                ? Text('Edit Teacher')
-                : Text('Add Teacher')),
+                ? const Text('Edit Teacher')
+                : const Text('Add Teacher')),
         backgroundColor: Colors.transparent,
         elevation: 0,
       ),
@@ -46,15 +46,15 @@ class AddStudentScreen extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  Icon(
+                  const Icon(
                     Icons.warning_amber,
                     color: Colors.red,
                   ),
-                  SizedBox(width: 10),
+                  const SizedBox(width: 10),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('Warning'),
+                      const Text('Warning'),
                       Text(
                           'You are adding a ${Provider.of<MembersProvider>(context, listen: false).memberType}'),
                     ],
@@ -63,7 +63,7 @@ class AddStudentScreen extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
           Expanded(
@@ -75,8 +75,8 @@ class AddStudentScreen extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: (processType == 'Edit' || isStudent)
-                    ? AddStudentForm()
-                    : AddTeacherForm(),
+                    ? const AddStudentForm()
+                    : const AddTeacherForm(),
               ),
             ),
           ),
@@ -132,7 +132,7 @@ class _AddTeacherFormState extends State<AddTeacherForm> {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           TextFormField(
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               prefixIcon: Icon(Icons.person),
               hintText: 'Enter First Name',
             ),
@@ -147,7 +147,7 @@ class _AddTeacherFormState extends State<AddTeacherForm> {
             },
           ),
           TextFormField(
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               prefixIcon: Icon(Icons.person),
               hintText: 'Enter Last Name',
             ),
@@ -162,7 +162,7 @@ class _AddTeacherFormState extends State<AddTeacherForm> {
             },
           ),
           TextFormField(
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               // labelText: 'Phone',
               prefixIcon: Icon(Icons.phone),
               hintText: 'Enter Phone',
@@ -178,7 +178,7 @@ class _AddTeacherFormState extends State<AddTeacherForm> {
             },
           ),
           TextFormField(
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               // labelText: 'Address',
               prefixIcon: Icon(Icons.home),
               hintText: 'Enter Address',
@@ -216,7 +216,7 @@ class _AddTeacherFormState extends State<AddTeacherForm> {
                           Icon(
                             item == 'Male' ? Icons.male : Icons.female,
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 10,
                           ),
                           Text(
@@ -284,7 +284,7 @@ class _AddTeacherFormState extends State<AddTeacherForm> {
                           Icon(
                             item == 'Male' ? Icons.male : Icons.female,
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 10,
                           ),
                           Text(
@@ -333,7 +333,7 @@ class _AddTeacherFormState extends State<AddTeacherForm> {
               onPressed: () {
                 _submitForm();
               },
-              child: Text('Submit'))
+              child: const Text('Submit'))
         ],
       ),
     );
@@ -416,7 +416,7 @@ class _AddStudentFormState extends State<AddStudentForm> {
             : Future.value(Members()),
         builder: (BuildContext context, AsyncSnapshot<Members> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return CircularProgressIndicator(); // Show loading spinner while waiting for future to complete
+            return const CircularProgressIndicator(); // Show loading spinner while waiting for future to complete
           } else if (snapshot.hasError) {
             return Text('Error: ${snapshot.error}');
           } else {
@@ -427,7 +427,7 @@ class _AddStudentFormState extends State<AddStudentForm> {
                 children: [
                   TextFormField(
                     // cursorColor: Colors.red,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       // labelText: 'Name',
                       // floatingLabelBehavior: FloatingLabelBehavior.always,
                       prefixIcon: Icon(Icons.person),
@@ -448,7 +448,7 @@ class _AddStudentFormState extends State<AddStudentForm> {
                   ),
                   TextFormField(
                     // cursorColor: Colors.red,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       // labelText: 'Name',
                       // floatingLabelBehavior: FloatingLabelBehavior.always,
                       prefixIcon: Icon(Icons.person),
@@ -477,7 +477,7 @@ class _AddStudentFormState extends State<AddStudentForm> {
                   //   ),
                   // ),
                   TextFormField(
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       // labelText: 'Phone',
                       prefixIcon: Icon(Icons.phone),
                       hintText: 'Enter Phone',
@@ -493,7 +493,7 @@ class _AddStudentFormState extends State<AddStudentForm> {
                     },
                   ),
                   TextFormField(
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       // labelText: 'Address',
                       prefixIcon: Icon(Icons.home),
                       hintText: 'Enter Address',
@@ -544,7 +544,7 @@ class _AddStudentFormState extends State<AddStudentForm> {
                                   Icon(
                                     item == 'Male' ? Icons.male : Icons.female,
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     width: 10,
                                   ),
                                   Text(
@@ -612,7 +612,7 @@ class _AddStudentFormState extends State<AddStudentForm> {
                                   Icon(
                                     item == 'Male' ? Icons.male : Icons.female,
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     width: 10,
                                   ),
                                   Text(
@@ -674,13 +674,13 @@ class _AddStudentFormState extends State<AddStudentForm> {
                           onPressed: () {
                             submitForm();
                           },
-                          child: Text('Update'),
+                          child: const Text('Update'),
                         )
                       : ElevatedButton(
                           onPressed: () {
                             submitForm();
                           },
-                          child: Text('Submit'),
+                          child: const Text('Submit'),
                         ),
                   processType == 'Edit'
                       ? ElevatedButton(
@@ -690,8 +690,8 @@ class _AddStudentFormState extends State<AddStudentForm> {
                               userId: userId!, //FIXME:
                             );
                           },
-                          child: Text('Delete'))
-                      : SizedBox(),
+                          child: const Text('Delete'))
+                      : const SizedBox(),
                 ],
               ),
             );

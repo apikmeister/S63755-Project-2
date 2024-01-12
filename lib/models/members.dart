@@ -34,7 +34,7 @@ class Member {
   String? gender;
   String? address;
   String? role;
-  Null? grade;
+  String? grade;
   String? hireDate;
   String? updatedAt;
 

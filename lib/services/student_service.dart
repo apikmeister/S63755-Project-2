@@ -6,7 +6,6 @@ import 'package:pluto_grid/pluto_grid.dart';
 import 'package:provider/provider.dart';
 import 'package:school_management/models/members.dart';
 import 'package:school_management/models/student.dart';
-import 'package:school_management/providers/data_provider.dart';
 import 'package:school_management/providers/members_provider.dart';
 import 'package:school_management/utils/error_handler.dart';
 import 'package:school_management/utils/token_validator.dart';

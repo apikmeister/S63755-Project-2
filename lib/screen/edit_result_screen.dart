@@ -1,7 +1,6 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:school_management/models/result.dart';
 import 'package:school_management/models/subject.dart';
 import 'package:school_management/providers/members_provider.dart';
 import 'package:school_management/providers/subject_provider.dart';
