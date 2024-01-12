@@ -14,44 +14,24 @@ void httpErrorHandler({
       onSuccess();
       break;
     case 400:
-      // ScaffoldMessenger.of(context).showSnackBar(
-      //   SnackBar(
-      //     content: Text('Error ${jsonDecode(res.body)['message']}'),
-      //   ),
-      // );
       ScaffoldMessenger.of(context)
         ..hideCurrentSnackBar()
         ..showSnackBar(
             errorSnackBar('Error ${jsonDecode(res.body)['message']}'));
       break;
     case 401:
-      // ScaffoldMessenger.of(context).showSnackBar(
-      //   SnackBar(
-      //     content: Text('Error ${jsonDecode(res.body)['message']}'),
-      //   ),
-      // );
       ScaffoldMessenger.of(context)
         ..hideCurrentSnackBar()
         ..showSnackBar(
             errorSnackBar('Error ${jsonDecode(res.body)['message']}'));
       break;
     case 403:
-      // ScaffoldMessenger.of(context).showSnackBar(
-      //   SnackBar(
-      //     content: Text('Error ${jsonDecode(res.body)['message']}'),
-      //   ),
-      // );
       ScaffoldMessenger.of(context)
         ..hideCurrentSnackBar()
         ..showSnackBar(
             errorSnackBar('Error ${jsonDecode(res.body)['message']}'));
       break;
     case 404:
-      // ScaffoldMessenger.of(context).showSnackBar(
-      //   SnackBar(
-      //     content: Text('Error ${jsonDecode(res.body)['message']}'),
-      //   ),
-      // );
       ScaffoldMessenger.of(context)
         ..hideCurrentSnackBar()
         ..showSnackBar(
@@ -65,31 +45,12 @@ void httpErrorHandler({
       );
       break;
     default:
-      // ScaffoldMessenger.of(context).showSnackBar(
-      //   SnackBar(
-      //     content: Text('Error ${jsonDecode(res.body)['message']}'),
-      //   ),
-      // );
       ScaffoldMessenger.of(context)
         ..hideCurrentSnackBar()
         ..showSnackBar(
             errorSnackBar('Error ${jsonDecode(res.body)['message']}'));
   }
 }
-
-// final errorSnackBar = SnackBar(
-//   elevation: 0,
-//   behavior: SnackBarBehavior.floating,
-//   backgroundColor: Colors.transparent,
-//   content: AwesomeSnackbarContent(
-//     title: 'On Snap!',
-//     message:
-//         'This is an example error message that will be shown in the body of snackbar!',
-
-//     /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
-//     contentType: ContentType.failure,
-//   ),
-// );
 
 SnackBar errorSnackBar(String message) {
   return SnackBar(

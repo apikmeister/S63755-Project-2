@@ -1,19 +1,15 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:school_management/models/members.dart';
-import 'package:school_management/models/student.dart';
 import 'package:school_management/providers/members_provider.dart';
+import 'package:school_management/providers/school_provider.dart';
 import 'package:school_management/services/student_service.dart';
 import 'package:school_management/services/teacher_service.dart';
 
-// FIXME: CHANGE TO ADD MEMBERS
 class AddStudentScreen extends StatelessWidget {
-  // final bool isStudent; //TODO: Implement for teacher
   const AddStudentScreen({
     super.key,
-    // required this.isStudent,
   });
 
   @override
@@ -26,7 +22,6 @@ class AddStudentScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.deepPurple,
       appBar: AppBar(
-        // title: isStudent ? Text('Add Student') : Text('Add Teacher'),
         title: isStudent
             ? (processType == 'Edit'
                 ? Text('Edit Student')
@@ -68,22 +63,6 @@ class AddStudentScreen extends StatelessWidget {
               ),
             ),
           ),
-          // Container(
-          //   color: Colors.amber,
-          //   height: 100,
-          // ),
-          // SafeArea(
-          //   child:
-          // Text(
-          //   'Add Student',
-          //   style: GoogleFonts.inter(
-          //     fontSize: 24,
-          //     fontWeight: FontWeight.w900,
-          //     color: Colors.white,
-          //   ),
-          // ),
-          // ),
-          // Text('data'),
           SizedBox(
             height: 10,
           ),
@@ -98,7 +77,6 @@ class AddStudentScreen extends StatelessWidget {
                 child: (processType == 'Edit' || isStudent)
                     ? AddStudentForm()
                     : AddTeacherForm(),
-                // isStudent ? AddStudentForm() : AddTeacherForm(),
               ),
             ),
           ),
@@ -141,7 +119,7 @@ class _AddTeacherFormState extends State<AddTeacherForm> {
         address: address,
         gender: gender,
         className: className,
-        schoolId: 'SMKATAHAP', //FIXME: change this
+        schoolId: Provider.of<SchoolProvider>(context, listen: false).schoolId!,
       );
     }
   }
@@ -154,10 +132,7 @@ class _AddTeacherFormState extends State<AddTeacherForm> {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           TextFormField(
-            // cursorColor: Colors.red,
             decoration: InputDecoration(
-              // labelText: 'Name',
-              // floatingLabelBehavior: FloatingLabelBehavior.always,
               prefixIcon: Icon(Icons.person),
               hintText: 'Enter First Name',
             ),
@@ -172,10 +147,7 @@ class _AddTeacherFormState extends State<AddTeacherForm> {
             },
           ),
           TextFormField(
-            // cursorColor: Colors.red,
             decoration: InputDecoration(
-              // labelText: 'Name',
-              // floatingLabelBehavior: FloatingLabelBehavior.always,
               prefixIcon: Icon(Icons.person),
               hintText: 'Enter Last Name',
             ),
@@ -189,13 +161,6 @@ class _AddTeacherFormState extends State<AddTeacherForm> {
               lastName = value.toString();
             },
           ),
-          // TextFormField(
-          //   decoration: InputDecoration(
-          //     // labelText: 'Email',
-          //     prefixIcon: Icon(Icons.email),
-          //     hintText: 'Enter Email',
-          //   ),
-          // ),
           TextFormField(
             decoration: InputDecoration(
               // labelText: 'Phone',
@@ -228,19 +193,6 @@ class _AddTeacherFormState extends State<AddTeacherForm> {
               address = value.toString();
             },
           ),
-          // DropdownButtonFormField(
-          //   onChanged: (value) {},
-          //   decoration: InputDecoration(
-          //       prefixIcon: Icon(Icons.boy), hintText: 'Select Gender'),
-          //   items: [
-          //     DropdownMenuItem(
-          //       child: Text('Male'),
-          //     ),
-          //     // DropdownMenuItem(
-          //     //   child: Text('Female'),
-          //     // ),
-          //   ],
-          // ),
           DropdownButtonFormField2<String>(
             isExpanded: true,
             decoration: InputDecoration(
@@ -377,18 +329,6 @@ class _AddTeacherFormState extends State<AddTeacherForm> {
               padding: EdgeInsets.symmetric(horizontal: 16),
             ),
           ),
-          // TextFormField(
-          //   decoration: InputDecoration(
-          //     labelText: 'Section',
-          //     hintText: 'Enter Section',
-          //   ),
-          // ),
-          // TextFormField(
-          //   decoration: InputDecoration(
-          //     labelText: 'Roll No',
-          //     hintText: 'Enter Roll No',
-          //   ),
-          // ),
           ElevatedButton(
               onPressed: () {
                 _submitForm();
@@ -452,7 +392,8 @@ class _AddStudentFormState extends State<AddStudentForm> {
             address: address,
             gender: gender,
             className: className,
-            schoolId: 'SMKATAHAP', //FIXME: change this to provider
+            schoolId:
+                Provider.of<SchoolProvider>(context, listen: false).schoolId!,
           );
         } else {
           await studentService.addStudent(
@@ -462,27 +403,17 @@ class _AddStudentFormState extends State<AddStudentForm> {
             address: address,
             gender: gender,
             className: className,
-            schoolId: 'SMKATAHAP', //FIXME: change this to provider
+            schoolId:
+                Provider.of<SchoolProvider>(context, listen: false).schoolId!,
           );
         }
       }
     }
 
-    // if (processType == 'Edit') {
-    //   var student = await fetchStudentInfo();
-    // }
-
     return FutureBuilder<Members>(
         future: processType == 'Edit'
             ? fetchStudentInfo()
             : Future.value(Members()),
-        // isStudent
-        // ? (processType == 'Edit'
-        //     ? Text('Edit Student')
-        //     : Text('Add Student'))
-        // : (processType == 'Edit'
-        //     ? Text('Edit Teacher')
-        //     : Text('Add Teacher')),,
         builder: (BuildContext context, AsyncSnapshot<Members> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return CircularProgressIndicator(); // Show loading spinner while waiting for future to complete
@@ -758,7 +689,6 @@ class _AddStudentFormState extends State<AddStudentForm> {
                               context: context,
                               userId: userId!, //FIXME:
                             );
-                            Navigator.pop(context);
                           },
                           child: Text('Delete'))
                       : SizedBox(),

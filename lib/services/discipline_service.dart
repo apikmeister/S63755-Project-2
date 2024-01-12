@@ -16,12 +16,10 @@ class DisciplineService {
     try {
       String token = await getToken();
       http.Response res = await http.get(
-        // Uri.parse('http://localhost:3000/api/user/student/$schoolId'),
         Uri.parse('http://localhost:3000/api/discipline/$userId'),
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
-          'Authorization': //TODO: Change this to token
-              'Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiZXhwIjoxNzA1Mzk0NDQwfQ.1ZC3QrQrcWnOGfV7t-u_aKizoTY1L2NlOeijtsNIsEA'
+          'Authorization': 'Bearer $token'
         },
       );
       late final DisciplineRecords records;
@@ -33,14 +31,8 @@ class DisciplineService {
         },
       );
 
-      // return data;
       return records;
     } catch (e) {
-      // ScaffoldMessenger.of(context).showSnackBar(
-      //   SnackBar(
-      //     content: Text('Error $e'),
-      //   ),
-      // );
       ScaffoldMessenger.of(context)
         ..hideCurrentSnackBar()
         ..showSnackBar(errorSnackBar('Error $e'));
@@ -66,11 +58,9 @@ class DisciplineService {
         },
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
-          'Authorization': //TODO: Change this to token
-              'Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiZXhwIjoxNzA1Mzk0NDQwfQ.1ZC3QrQrcWnOGfV7t-u_aKizoTY1L2NlOeijtsNIsEA'
+          'Authorization': 'Bearer $token'
         },
       );
-      // return res.body;
       httpErrorHandler(
           res: res,
           context: context,
@@ -78,7 +68,8 @@ class DisciplineService {
             Navigator.pushReplacementNamed(context, '/dashboard');
             ScaffoldMessenger.of(context)
               ..hideCurrentSnackBar()
-              ..showSnackBar(successSnackBar('Student Added Successfully'));
+              ..showSnackBar(
+                  successSnackBar('Discipline Recorded Successfully'));
           });
     } catch (e) {
       ScaffoldMessenger.of(context)
@@ -97,11 +88,10 @@ class DisciplineService {
         Uri.parse('http://localhost:3000/api/discipline/record/$recordId'),
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
-          'Authorization': //TODO: Change this to token
-              'Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiZXhwIjoxNzA1Mzk0NDQwfQ.1ZC3QrQrcWnOGfV7t-u_aKizoTY1L2NlOeijtsNIsEA'
+          'Authorization': 'Bearer $token'
         },
       );
-      // return res.body;
+
       late final Discipline record;
       httpErrorHandler(
           res: res,
@@ -136,22 +126,20 @@ class DisciplineService {
         },
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
-          'Authorization': //TODO: Change this to token
-              'Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiZXhwIjoxNzA1Mzk0NDQwfQ.1ZC3QrQrcWnOGfV7t-u_aKizoTY1L2NlOeijtsNIsEA'
+          'Authorization': 'Bearer $token'
         },
       );
-      // return res.body;
       httpErrorHandler(
-          res: res,
-          context: context,
-          onSuccess: () {
-            // Navigator.pushReplacementNamed(context, '/dashboard');
-            Provider.of<DataNotifier>(context, listen: false).refresh();
-            Navigator.pop(context);
-            ScaffoldMessenger.of(context)
-              ..hideCurrentSnackBar()
-              ..showSnackBar(successSnackBar('Record Edited Successfully'));
-          });
+        res: res,
+        context: context,
+        onSuccess: () {
+          Provider.of<DataNotifier>(context, listen: false).refresh();
+          Navigator.pop(context);
+          ScaffoldMessenger.of(context)
+            ..hideCurrentSnackBar()
+            ..showSnackBar(successSnackBar('Record Edited Successfully'));
+        },
+      );
     } catch (e) {
       ScaffoldMessenger.of(context)
         ..hideCurrentSnackBar()

@@ -18,8 +18,7 @@ class ResultService {
         Uri.parse('http://localhost:3000/api/result/$studentId'),
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
-          'Authorization': //TODO: Change this to token
-              'Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiZXhwIjoxNzA1Mzk0NDQwfQ.1ZC3QrQrcWnOGfV7t-u_aKizoTY1L2NlOeijtsNIsEA'
+          'Authorization': 'Bearer $token'
         },
       );
 
@@ -53,8 +52,7 @@ class ResultService {
         Uri.parse('http://localhost:3000/api/subject/class/$classId'),
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
-          'Authorization': //TODO: Change this to token
-              'Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiZXhwIjoxNzA1Mzk0NDQwfQ.1ZC3QrQrcWnOGfV7t-u_aKizoTY1L2NlOeijtsNIsEA'
+          'Authorization': 'Bearer $token'
         },
       );
 
@@ -88,7 +86,6 @@ class ResultService {
     try {
       String token = await getToken();
       http.Response res = await http.post(
-        // Uri.parse('http://localhost:3000/api/user/student/$schoolId'),
         Uri.parse('http://localhost:3000/api/result/'),
         body: {
           'studentID': studentId,
@@ -98,20 +95,19 @@ class ResultService {
         },
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
-          'Authorization': //TODO: Change this to token
-              'Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiZXhwIjoxNzA1Mzk0NDQwfQ.1ZC3QrQrcWnOGfV7t-u_aKizoTY1L2NlOeijtsNIsEA'
+          'Authorization': 'Bearer $token'
         },
       );
-      // return res.body;
       httpErrorHandler(
-          res: res,
-          context: context,
-          onSuccess: () {
-            Navigator.pushReplacementNamed(context, '/dashboard');
-            ScaffoldMessenger.of(context)
-              ..hideCurrentSnackBar()
-              ..showSnackBar(successSnackBar('Result Added Successfully'));
-          });
+        res: res,
+        context: context,
+        onSuccess: () {
+          Navigator.pushReplacementNamed(context, '/dashboard');
+          ScaffoldMessenger.of(context)
+            ..hideCurrentSnackBar()
+            ..showSnackBar(successSnackBar('Result Added Successfully'));
+        },
+      );
     } catch (e) {
       ScaffoldMessenger.of(context)
         ..hideCurrentSnackBar()
@@ -133,8 +129,7 @@ class ResultService {
         },
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
-          'Authorization': //TODO: Change this to token
-              'Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiZXhwIjoxNzA1Mzk0NDQwfQ.1ZC3QrQrcWnOGfV7t-u_aKizoTY1L2NlOeijtsNIsEA'
+          'Authorization': 'Bearer $token'
         },
       );
       // return res.body;
@@ -153,6 +148,4 @@ class ResultService {
         ..showSnackBar(errorSnackBar('Error $e'));
     }
   }
-
-  // TODO: Implement this to get result by term for user
 }

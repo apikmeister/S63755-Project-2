@@ -51,7 +51,7 @@ class EditResultScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Edit Result Screen'),
+        title: const Text('Edit Result Screen'),
         backgroundColor: Colors.deepPurple,
         elevation: 0,
       ),
@@ -74,7 +74,7 @@ class EditResultScreen extends StatelessWidget {
                             ),
                             builder: (context, snapshot) => snapshot.hasData
                                 ? TextFormField(
-                                    decoration: InputDecoration(
+                                    decoration: const InputDecoration(
                                       labelText: 'Subject Name',
                                     ),
                                     initialValue: snapshot.data!.result!
@@ -89,7 +89,7 @@ class EditResultScreen extends StatelessWidget {
                                     },
                                     enabled: false,
                                   )
-                                : CircularProgressIndicator(),
+                                : const CircularProgressIndicator(),
                           )
                         : FutureBuilder<SubjectList>(
                             future: ResultService().getSubjects(
@@ -100,9 +100,6 @@ class EditResultScreen extends StatelessWidget {
                                 AsyncSnapshot<SubjectList> snapshot) {
                               if (snapshot.hasData) {
                                 return DropdownButtonFormField2<String>(
-                                  // value: isEdit
-                                  //     ? snapshot.data!.subject![0].subjectID
-                                  //     : '',
                                   isExpanded: true,
                                   decoration: InputDecoration(
                                     // Add Horizontal padding using menuItemStyleData.padding so it matches
@@ -112,7 +109,6 @@ class EditResultScreen extends StatelessWidget {
                                     border: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(15),
                                     ),
-                                    // Add more decoration..
                                   ),
                                   hint: const Text(
                                     'Grade',
@@ -163,16 +159,12 @@ class EditResultScreen extends StatelessWidget {
                                   ),
                                 );
                               } else {
-                                return CircularProgressIndicator();
+                                return const CircularProgressIndicator();
                               }
-                            }),
-                    // TextFormField(
-                    //   decoration: InputDecoration(
-                    //     labelText: 'First Name',
-                    //   ),
-                    // ),
+                            },
+                          ),
                   ),
-                  SizedBox(width: 10),
+                  const SizedBox(width: 10),
                   Flexible(
                     flex: 1,
                     child: DropdownButtonFormField2<String>(
@@ -241,12 +233,12 @@ class EditResultScreen extends StatelessWidget {
                   ),
                 ],
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               ElevatedButton(
                 onPressed: () {
                   submitResult();
                 },
-                child: Text('Update Result'),
+                child: const Text('Update Result'),
               ),
             ],
           ),

@@ -5,6 +5,7 @@ import 'package:pluto_grid/pluto_grid.dart';
 import 'package:provider/provider.dart';
 import 'package:school_management/models/student.dart';
 import 'package:school_management/models/teacher.dart';
+import 'package:school_management/providers/data_provider.dart';
 import 'package:school_management/providers/members_provider.dart';
 import 'package:school_management/services/student_service.dart';
 import 'package:school_management/services/teacher_service.dart';
@@ -30,8 +31,6 @@ class _LazyRowPaginationState extends State<LazyRowPagination> {
     final bool isStudent =
         Provider.of<MembersProvider>(context, listen: false).memberType ==
             'Student';
-    // dataSource = StudentDataSource([]);
-    // final dummyData = DummyData(10, 100);
     isStudent
         ? columns.addAll(
             [
@@ -60,7 +59,6 @@ class _LazyRowPaginationState extends State<LazyRowPagination> {
                 title: 'User ID',
                 field: 'userId',
                 type: PlutoColumnType.text(),
-                // width: 50,
                 width: 100,
                 frozen: PlutoColumnFrozen.start,
                 enableEditingMode: false,
@@ -167,6 +165,8 @@ class _LazyRowPaginationState extends State<LazyRowPagination> {
               PlutoColumn(
                 title: 'User ID',
                 field: 'userId',
+                width: 100,
+                frozen: PlutoColumnFrozen.start,
                 type: PlutoColumnType.text(),
               ),
               PlutoColumn(
@@ -184,7 +184,6 @@ class _LazyRowPaginationState extends State<LazyRowPagination> {
                 field: 'gender',
                 type: PlutoColumnType.text(),
               ),
-              // Add more columns for other fields...
             ],
           );
   }
@@ -234,7 +233,6 @@ class _LazyRowPaginationState extends State<LazyRowPagination> {
                   PlutoCell(value: member.className ?? "Class not assigned"),
               'viewDisciplineRecord': PlutoCell(value: member.userId),
               'viewResultUrl': PlutoCell(value: member.viewResultUrl),
-              // Add more cells for other fields...
             },
           );
         } else if (member is Teachers) {
@@ -245,31 +243,11 @@ class _LazyRowPaginationState extends State<LazyRowPagination> {
               'firstName': PlutoCell(value: member.firstName),
               'lastName': PlutoCell(value: member.lastName),
               'gender': PlutoCell(value: member.gender),
-              // Add more cells for other fields...
             },
           );
         } else {
           throw Exception('Unknown member type');
         }
-        // return isStudent ? PlutoRow(
-        //   cells: {
-        //     'userId': PlutoCell(value: member.userId),
-        //     'firstName': PlutoCell(value: member.firstName),
-        //     'lastName': PlutoCell(value: member.lastName),
-        //     'gender': PlutoCell(value: member.gender),
-        //     'className':
-        //         PlutoCell(value: member.className ?? "Class not assigned"),
-        //     'viewResultUrl': PlutoCell(value: member.viewResultUrl),
-        //     // Add more cells for other fields...
-        //   },
-        // ) : PlutoRow(
-        //   cells: {
-        //     'userId': PlutoCell(value: member.userId),
-        //     'firstName': PlutoCell(value: member.firstName),
-        //     'lastName': PlutoCell(value: member.lastName),
-        //     'gender': PlutoCell(value: member.gender),
-        //   },
-        // );
       }).toList();
 
       return Future.value(
@@ -280,44 +258,33 @@ class _LazyRowPaginationState extends State<LazyRowPagination> {
       );
     }
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Test'),
-      ),
-      body: PlutoGrid(
-        columns: columns,
-        rows: rows,
-        onLoaded: (PlutoGridOnLoadedEvent event) {
-          stateManager = event.stateManager;
-          stateManager.setSelectingMode(PlutoGridSelectingMode.cell);
-          stateManager.setShowColumnFilter(true);
-        },
-        onChanged: (PlutoGridOnChangedEvent event) {},
-        configuration: const PlutoGridConfiguration(),
-        createFooter: (stateManager) {
-          return PlutoLazyPagination(
-            // Rest of the PlutoLazyPagination parameters...
-            fetchWithFiltering: false,
-            fetchWithSorting: false,
-            fetch: fetch,
-            stateManager: stateManager,
-          );
-        },
-      ),
+    return Consumer<DataNotifier>(
+      builder: (context, notifier, child) {
+        return Scaffold(
+          appBar: AppBar(
+            title: Text('Test'), //FIXME:
+          ),
+          body: PlutoGrid(
+            columns: columns,
+            rows: rows,
+            onLoaded: (PlutoGridOnLoadedEvent event) {
+              stateManager = event.stateManager;
+              stateManager.setSelectingMode(PlutoGridSelectingMode.cell);
+              stateManager.setShowColumnFilter(true);
+            },
+            onChanged: (PlutoGridOnChangedEvent event) {},
+            configuration: const PlutoGridConfiguration(),
+            createFooter: (stateManager) {
+              return PlutoLazyPagination(
+                fetchWithFiltering: false,
+                fetchWithSorting: false,
+                fetch: fetch,
+                stateManager: stateManager,
+              );
+            },
+          ),
+        );
+      },
     );
   }
 }
-
-// class ClassYouImplemented implements PlutoFilterType {
-//   @override
-//   String get title => 'contains';
-
-//   @override
-//   get compare => ({
-//         required String? base,
-//       }) {
-//         var keys = search!.split(',');
-//       };
-
-//   const ClassYouImplemented();
-// }

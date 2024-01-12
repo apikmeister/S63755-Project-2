@@ -9,18 +9,13 @@ import 'package:school_management/services/student_service.dart';
 import 'package:school_management/services/teacher_service.dart';
 
 class ViewMemberScreen extends StatelessWidget {
-  // final List<Student> students = List.generate(
-  //   100,
-  //   (index) => Student(id: index, name: 'Student $index'),
-  // );
-
-  ViewMemberScreen({super.key});
+  const ViewMemberScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('View Member Screen'),
+        title: const Text('View Member Screen'),
         backgroundColor: Colors.deepPurple,
         elevation: 0,
         actions: [
@@ -28,20 +23,16 @@ class ViewMemberScreen extends StatelessWidget {
             return IconButton(
               onPressed: () {
                 Scaffold.of(context).openEndDrawer();
-                // Navigator.pushNamed(context, '/add_member');
               },
-              icon: Icon(Icons.filter_alt_outlined),
+              icon: const Icon(Icons.filter_alt_outlined),
             );
           }),
         ],
       ),
-      body: StudentTable(),
+      body: const StudentTable(),
       endDrawer: Drawer(
         child: ListView(
-          children: [
-            // DrawerHeader(
-            //   child: Text('Drawer Header'),
-            // ),
+          children: const [
             ListTile(
               title: Row(
                 children: [],
@@ -55,32 +46,6 @@ class ViewMemberScreen extends StatelessWidget {
       ),
     );
   }
-  // @override
-  // Widget build(BuildContext context)  {
-  //   final students = await StudentService().getAllStudent(
-  //     context: context,
-  //     schoolId: Provider.of<SchoolProvider>(context, listen: false).schoolId!,
-  //   );
-  //   final dataSource = StudentDataSource(students);
-  //   return Scaffold(
-  //     appBar: AppBar(
-  //       title: Text('View Member Screen'),
-  //       backgroundColor: Colors.deepPurple,
-  //       elevation: 0,
-  //     ),
-  //     body: SingleChildScrollView(
-  //       child: PaginatedDataTable(
-  //         header: Text('Students'),
-  //         rowsPerPage: 10,
-  //         columns: [
-  //           DataColumn(label: Text('Name')),
-  //           DataColumn(label: Text('Age')),
-  //         ],
-  //         source: dataSource,
-  //       ),
-  //     ),
-  //   );
-  // }
 }
 
 class StudentTable extends StatefulWidget {
@@ -104,13 +69,14 @@ class _StudentTableState extends State<StudentTable> {
         ? FutureBuilder<List<Students>>(
             future: StudentService().getAllStudent(
               context: context,
-              schoolId: 'SMKATAHAP', //TODO: Change this to schoolId
+              schoolId:
+                  Provider.of<SchoolProvider>(context, listen: false).schoolId!,
               page: 1,
               rowsPerPage: 10,
             ),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return CircularProgressIndicator();
+                return const CircularProgressIndicator();
               } else if (snapshot.hasError) {
                 return Text('Error: ${snapshot.error}');
               } else {
@@ -123,11 +89,12 @@ class _StudentTableState extends State<StudentTable> {
         : FutureBuilder<List<Teachers>>(
             future: TeacherService().getAllTeacher(
               context: context,
-              schoolId: 'SMKATAHAP', //TODO: Change this to schoolId
+              schoolId:
+                  Provider.of<SchoolProvider>(context, listen: false).schoolId!,
             ),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return CircularProgressIndicator();
+                return const CircularProgressIndicator();
               } else if (snapshot.hasError) {
                 return Text('Error: ${snapshot.error}');
               } else {
@@ -146,7 +113,7 @@ class TableMembers extends StatelessWidget {
     this.dataSource,
   });
 
-  final dataSource;
+  final dynamic dataSource;
 
   @override
   Widget build(BuildContext context) {
@@ -156,32 +123,6 @@ class TableMembers extends StatelessWidget {
           child: PlutoGrid(
             columns: dataSource.columns,
             rows: dataSource.rows,
-            // createFooter: (stateManager) {
-            //   return PlutoLazyPagination(
-            //     initialPage: 1,
-            //     initialFetch: true,
-            //     // Decide whether sorting will be handled by the server.
-            //     // If false, handle sorting on the client side.
-            //     // Default is true.
-            //     fetchWithSorting: true,
-            //     // Decide whether filtering is handled by the server.
-            //     // If false, handle filtering on the client side.
-            //     // Default is true.
-            //     fetchWithFiltering: true,
-            //     // Determines the page size to move to the previous and next page buttons.
-            //     // Default value is null. In this case,
-            //     // it moves as many as the number of page buttons visible on the screen.
-            //     pageSizeToMove: null,
-            //     fetch: , //Dont understand this
-            //     stateManager: stateManager,
-            //     );
-            // },
-            // pagination: PlutoLazyPagination(
-            //   pageSize: 10,
-            //   loadMore: (PlutoGridLoadMoreEvent event) async {
-            //     // Load more data here
-            //   },
-            // ),
           ),
         ),
       ],

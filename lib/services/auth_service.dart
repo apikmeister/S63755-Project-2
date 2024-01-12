@@ -76,14 +76,11 @@ class AuthSevice {
           prefs.setString('token', jsonDecode(res.body)['token']);
           Provider.of<SchoolProvider>(context, listen: false)
               .setSchoolId(jsonDecode(res.body)['schoolId']);
-          // prefs.setString('token', '123'); //TODO: remove this
-          // Navigator.pushNamed(context, '/dashboard');
           Navigator.pushNamedAndRemoveUntil(
               context, '/dashboard', (route) => false);
         },
       );
     } catch (e) {
-      // print(e);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('Error ${e.toString()}'),
@@ -111,84 +108,9 @@ class AuthSevice {
         final data = jsonDecode(res.body);
         throw Exception(data['message'] ?? 'Failed to validate token');
       }
-      // httpErrorHandler(
-      //   res: res,
-      //   context: context,
-      //   onSuccess: () async {
-      //     isValid = true;
-      //   },
-      // );
       return isValid;
     } catch (e) {
       throw Exception('Invalid token');
     }
   }
 }
-
-//   Future<bool> validate({
-//     required BuildContext context,
-//     required String token,
-//   }) async {
-//     bool isValid = false;
-//     try {
-//       http.Response res = await http.post(
-//         Uri.parse('http://localhost:3000/api/auth/validate'),
-//         headers: {
-//           'Content-Type': 'application/x-www-form-urlencoded',
-//           'Authorization': 'Bearer $token',
-//         },
-//       );
-//       httpErrorHandler(
-//         res: res,
-//         context: context,
-//         onSuccess: () async {
-//           // Navigator.pushNamed(context, '/dashboard');
-//           // return true;
-//           isValid = true;
-//         },
-//       );
-//     } catch (e) {
-//       throw Exception('Invalid token');
-//     }
-//     return isValid;
-//   }
-// }
-
-// // Future<void> login(String username, String password) async {
-// //   final prefs = await SharedPreferences.getInstance();
-// //   try {
-// //     final response = await http.post(
-// //       Uri.parse('http://localhost:3000/api/auth/login'),
-// //       body: {
-// //         'username': username,
-// //         'password': password,
-// //       },
-// //       headers: {
-// //         'Content-Type': 'application/x-www-form-urlencoded',
-// //       },
-// //     );
-
-// //     print(response.body);
-
-// //     if (response.statusCode == 200) {
-// //       final token = json.decode(response.body)['token'];
-// //       print(token);
-// //       // await _storage.write(key: 'token', value: token);
-// //       await prefs.setString('token', token);
-// //       Navigator.pushNamed(context, '/dashboard');
-// //     } else {
-// //       print(response.statusCode);
-// //       ScaffoldMessenger.of(context).showSnackBar(
-// //         SnackBar(
-// //           content: Text('Error ${response.statusCode}'),
-// //         ),
-// //       );
-// //     }
-// //   } catch (e) {
-// //     ScaffoldMessenger.of(context).showSnackBar(
-// //       SnackBar(
-// //         content: Text('Error ${e.toString()}'),
-// //       ),
-// //     );
-// //   }
-// // }

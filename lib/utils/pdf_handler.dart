@@ -60,8 +60,6 @@ class PdfGenerator {
     );
 
     return file;
-
-    // await PdfHandler.openFile(file);
   }
 
   static Widget _buildHeader() {

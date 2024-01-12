@@ -15,7 +15,7 @@ class OnboardingScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Text(
+                const Text(
                   'Onboarding Screen',
                   style: TextStyle(
                     fontSize: 24,
@@ -23,7 +23,7 @@ class OnboardingScreen extends StatelessWidget {
                   ),
                   textAlign: TextAlign.center,
                 ),
-                Text(
+                const Text(
                   'This is the onboarding screen. You can navigate to login or register screen from here.',
                   textAlign: TextAlign.center,
                 ),
@@ -35,7 +35,7 @@ class OnboardingScreen extends StatelessWidget {
                     await prefs.setBool('first_time', false);
                     Navigator.pushNamed(context, '/login');
                   },
-                  child: Text('Login'),
+                  child: const Text('Login'),
                 ),
               ],
             ),

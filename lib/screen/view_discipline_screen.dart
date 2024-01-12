@@ -16,7 +16,7 @@ class ViewDisciplineScreen extends StatelessWidget {
       builder: (context, dataNotifier, child) {
         return Scaffold(
           appBar: AppBar(
-            title: Text('View Discipline Records'),
+            title: const Text('View Discipline Records'),
           ),
           body: Padding(
             padding: const EdgeInsets.all(8.0),
@@ -24,11 +24,11 @@ class ViewDisciplineScreen extends StatelessWidget {
               future: DisciplineService().getDisciplineRecords(
                 context: context,
                 userId: Provider.of<MembersProvider>(context, listen: false)
-                    .getMemberId!, //FIXME:
+                    .getMemberId!, //FIXME: why lmao
               ),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(child: CircularProgressIndicator());
+                  return const Center(child: CircularProgressIndicator());
                 } else if (snapshot.hasError) {
                   return Center(child: Text('Error: ${snapshot.error}'));
                 } else if (snapshot.hasData) {
@@ -67,13 +67,13 @@ class ViewDisciplineScreen extends StatelessWidget {
                               Table(
                                 defaultVerticalAlignment:
                                     TableCellVerticalAlignment.middle,
-                                columnWidths: {
+                                columnWidths: const {
                                   0: FlexColumnWidth(3),
                                   1: FlexColumnWidth(2),
                                   2: FlexColumnWidth(1),
                                 },
                                 children: [
-                                  TableRow(
+                                  const TableRow(
                                     children: [
                                       Text(
                                         'Subject Name',
@@ -101,7 +101,7 @@ class ViewDisciplineScreen extends StatelessWidget {
                                           textAlign: TextAlign.center,
                                         ),
                                         IconButton(
-                                          icon: Icon(Icons.edit),
+                                          icon: const Icon(Icons.edit),
                                           onPressed: () {
                                             Provider.of<MembersProvider>(
                                                     context,
@@ -128,74 +128,14 @@ class ViewDisciplineScreen extends StatelessWidget {
                           ),
                         ),
                       ),
-                      // Expanded(
-                      //   child: SingleChildScrollView(
-                      //     child: Column(
-                      //       children: [
-                      //         Row(
-                      //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      //           children: [
-                      //             Text('Subject Name',
-                      //                 style:
-                      //                     TextStyle(fontWeight: FontWeight.bold)),
-                      //             Text('Grade Level',
-                      //                 style:
-                      //                     TextStyle(fontWeight: FontWeight.bold)),
-                      //           ],
-                      //         ),
-                      //         const SizedBox(
-                      //           height: 10,
-                      //         ),
-                      //         ListView.builder(
-                      //           shrinkWrap: true,
-                      //           itemCount: snapshot.data!.discipline!.length,
-                      //           itemBuilder: (context, index) {
-                      //             return Column(
-                      //               children: [
-                      //                 Row(
-                      //                   mainAxisAlignment:
-                      //                       MainAxisAlignment.spaceBetween,
-                      //                   children: [
-                      //                     //FIXME: maybe there is something better than this approach
-                      //                     Expanded(
-                      //                       flex: 4,
-                      //                       child: Text(snapshot.data!
-                      //                           .discipline![index].description!),
-                      //                     ),
-                      //                     Expanded(
-                      //                       child: Text(
-                      //                         snapshot
-                      //                             .data!.discipline![index].score!,
-                      //                         textAlign: TextAlign.center,
-                      //                       ),
-                      //                     ),
-                      //                     IconButton(
-                      //                       icon: Icon(Icons.edit),
-                      //                       onPressed: () {
-                      //                         // TODO: Implement your edit functionality here
-                      //                       },
-                      //                     ),
-                      //                   ],
-                      //                 ),
-                      //                 const SizedBox(
-                      //                   height: 10,
-                      //                 ),
-                      //               ],
-                      //             );
-                      //           },
-                      //         ),
-                      //       ],
-                      //     ),
-                      //   ),
-                      // ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text('Total Score',
+                          const Text('Total Score',
                               style: TextStyle(fontWeight: FontWeight.bold)),
                           Text(
                             totalScore,
-                            style: TextStyle(fontWeight: FontWeight.bold),
+                            style: const TextStyle(fontWeight: FontWeight.bold),
                           ),
                         ],
                       ),
@@ -205,12 +145,12 @@ class ViewDisciplineScreen extends StatelessWidget {
                               .setProcessType('Add');
                           Navigator.pushNamed(context, '/add-discipline');
                         },
-                        child: Text('Add New Records'),
+                        child: const Text('Add New Records'),
                       ),
                     ],
                   );
                 } else {
-                  return Center(child: Text('No data'));
+                  return const Center(child: Text('No data'));
                 }
               },
             ),

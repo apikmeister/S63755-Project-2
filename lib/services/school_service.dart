@@ -17,8 +17,7 @@ class SchoolService {
         Uri.parse('http://localhost:3000/api/school/$schoolId'),
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
-          'Authorization': //TODO: Change this to token
-              'Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiZXhwIjoxNzA1Mzk0NDQwfQ.1ZC3QrQrcWnOGfV7t-u_aKizoTY1L2NlOeijtsNIsEA'
+          'Authorization': 'Bearer $token'
         },
       );
       late final SchoolDetails school;

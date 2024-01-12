@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
+import 'package:school_management/providers/members_provider.dart';
 
 class RecordDisciplineScreen extends StatefulWidget {
   const RecordDisciplineScreen({super.key});
@@ -22,50 +24,42 @@ class _RecordDisciplineScreenState extends State<RecordDisciplineScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Record Discipline'),
+        title: const Text('Record Discipline'),
       ),
       body: Padding(
-        padding: EdgeInsets.all(20.0),
+        padding: const EdgeInsets.all(20.0),
         child: Form(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               TextFormField(
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Student Name',
                 ),
               ),
               TextFormField(
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Student ID',
                 ),
-                initialValue: 'LMAO', //TODO: Get student ID from provider
+                initialValue:
+                    Provider.of<MembersProvider>(context, listen: false)
+                        .memberId!,
                 readOnly: true,
                 enabled: false,
               ),
               TextFormField(
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Discipline',
                 ),
               ),
-              // TextFormField(
-              //   decoration: InputDecoration(
-              //     labelText: 'Date',
-              //   ),
-              // ),
-              // TextFormField(
-              //   decoration: InputDecoration(
-              //     labelText: 'Time',
-              //   ),
-              // ),
               TextFormField(
                 decoration: InputDecoration(
                   labelText: 'Date',
                   suffixIcon: IconButton(
-                    icon: Icon(Icons.calendar_today),
+                    icon: const Icon(Icons.calendar_today),
                     onPressed: () async {
                       // Below line stops keyboard from appearing
-                      FocusScope.of(context).requestFocus(new FocusNode());
+                      FocusScope.of(context).requestFocus(FocusNode());
 
                       // Show Date Picker here
                       final DateTime? pickedDate = await showDatePicker(
@@ -89,13 +83,13 @@ class _RecordDisciplineScreenState extends State<RecordDisciplineScreen> {
                     true, // Make this field read-only to prevent keyboard popup
               ),
               TextFormField(
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Description',
                 ),
               ),
               ElevatedButton(
                 onPressed: () {},
-                child: Text('Submit'),
+                child: const Text('Submit'),
               ),
             ],
           ),

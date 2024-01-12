@@ -18,8 +18,7 @@ class TeacherService {
         Uri.parse('http://localhost:3000/api/user/teacher/$schoolId'),
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
-          'Authorization': //TODO: Change this to token
-              'Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiZXhwIjoxNzA1Mzk0NDQwfQ.1ZC3QrQrcWnOGfV7t-u_aKizoTY1L2NlOeijtsNIsEA'
+          'Authorization': 'Bearer $token'
         },
       );
 
@@ -66,20 +65,20 @@ class TeacherService {
         },
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
-          'Authorization': //TODO: Change this to token
-              'Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiZXhwIjoxNzA1Mzk0NDQwfQ.1ZC3QrQrcWnOGfV7t-u_aKizoTY1L2NlOeijtsNIsEA'
+          'Authorization': 'Bearer $token'
         },
       );
-      // return res.body;
+
       httpErrorHandler(
-          res: res,
-          context: context,
-          onSuccess: () {
-            Navigator.pushReplacementNamed(context, '/dashboard');
-            ScaffoldMessenger.of(context)
-              ..hideCurrentSnackBar()
-              ..showSnackBar(successSnackBar('Teacher Added Successfully'));
-          });
+        res: res,
+        context: context,
+        onSuccess: () {
+          Navigator.pushReplacementNamed(context, '/dashboard');
+          ScaffoldMessenger.of(context)
+            ..hideCurrentSnackBar()
+            ..showSnackBar(successSnackBar('Teacher Added Successfully'));
+        },
+      );
     } catch (e) {
       ScaffoldMessenger.of(context)
         ..hideCurrentSnackBar()
@@ -87,42 +86,6 @@ class TeacherService {
     }
   }
 }
-
-// class TeacherDataSource extends DataTableSource {
-//   final List<Teachers> teachers;
-//   TeacherDataSource(this.teachers);
-
-//   @override
-//   DataRow getRow(int index) {
-//     final teacher = teachers[index];
-//     return DataRow.byIndex(
-//       index: index,
-//       cells: [
-//         DataCell(
-//           Text(teacher.userId!),
-//         ),
-//         DataCell(
-//           Text(teacher.firstName!),
-//         ),
-//         DataCell(
-//           Text(teacher.lastName!),
-//         ),
-//         DataCell(
-//           Text(teacher.gender!),
-//         ),
-//       ],
-//     );
-//   }
-
-//   @override
-//   bool get isRowCountApproximate => false;
-
-//   @override
-//   int get rowCount => teachers.length;
-
-//   @override
-//   int get selectedRowCount => 0;
-// }
 
 class TeacherDataSource {
   final List<Teachers> teachers;
@@ -150,7 +113,6 @@ class TeacherDataSource {
           field: 'gender',
           type: PlutoColumnType.text(),
         ),
-        // Add more columns for other fields...
       ];
 
   List<PlutoRow> get rows => teachers.map((teacher) {

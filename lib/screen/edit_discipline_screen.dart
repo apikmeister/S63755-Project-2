@@ -12,10 +12,10 @@ class EditDisciplineScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Add Discipline Record'),
+        title: const Text('Add Discipline Record'),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
+      body: const Padding(
+        padding: EdgeInsets.all(8.0),
         child: Column(
           children: [EditDisciplineForm()],
         ),
@@ -45,7 +45,7 @@ class _EditDisciplineFormState extends State<EditDisciplineForm> {
       DisciplineService().addDisciplineRecords(
         context: context,
         userId: Provider.of<MembersProvider>(context, listen: false)
-            .getMemberId!, //FIXME:
+            .getMemberId!, //FIXME: why?
         incidentDate: dateController.text,
         description: descriptionController.text,
         score: scoreController.text,
@@ -60,7 +60,7 @@ class _EditDisciplineFormState extends State<EditDisciplineForm> {
       child: Column(
         children: [
           TextFormField(
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               labelText: 'Student ID',
             ),
             enabled: false,
@@ -72,12 +72,13 @@ class _EditDisciplineFormState extends State<EditDisciplineForm> {
             decoration: InputDecoration(
               labelText: 'Date',
               suffixIcon: IconButton(
-                icon: Icon(Icons.calendar_today),
+                icon: const Icon(Icons.calendar_today),
                 onPressed: () async {
                   final DateTime? pickedDate = await showDatePicker(
                     context: context,
                     initialDate: DateTime.now(),
-                    firstDate: DateTime.now().subtract(Duration(days: 365 * 1)),
+                    firstDate:
+                        DateTime.now().subtract(const Duration(days: 365 * 1)),
                     lastDate: DateTime.now(),
                   );
                   if (pickedDate != null) {
@@ -97,7 +98,7 @@ class _EditDisciplineFormState extends State<EditDisciplineForm> {
           ),
           TextFormField(
             controller: descriptionController,
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               labelText: 'Description',
             ),
             validator: (value) {
@@ -109,7 +110,7 @@ class _EditDisciplineFormState extends State<EditDisciplineForm> {
           ),
           TextFormField(
             controller: scoreController,
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               labelText: 'Score',
             ),
             keyboardType: TextInputType.number,
@@ -127,7 +128,7 @@ class _EditDisciplineFormState extends State<EditDisciplineForm> {
             onPressed: () {
               addDisciplineRecord();
             },
-            child: Text('Submit'),
+            child: const Text('Submit'),
           ),
         ],
       ),

@@ -78,11 +78,6 @@ class SchoolManagementApp extends StatelessWidget {
               fontSize: 24,
               fontWeight: FontWeight.w600,
             ),
-            // TextStyle(
-            //   color: Colors.black,
-            //   fontSize: 24,
-            //   fontWeight: FontWeight.w600,
-            // ),
           ),
           textSelectionTheme: TextSelectionThemeData(
             cursorColor: Colors.deepPurple,
@@ -128,14 +123,6 @@ class SchoolManagementApp extends StatelessWidget {
             ),
           ),
         ),
-
-        // ThemeData(
-        //   fontFamily: GoogleFonts.inter().fontFamily,
-        //   textTheme: GoogleFonts.interTextTheme(
-        //     Theme.of(context).textTheme,
-        //   ),
-        // ),
-        //TODO: Uncomment this code to enable routing FOR PRODUCTION
         routes: {
           '/login': (context) => LoginScreen(),
           '/dashboard': (context) => DashboardScreen(),
@@ -147,12 +134,7 @@ class SchoolManagementApp extends StatelessWidget {
           '/view-result': (context) => ViewResultScreen(),
           '/edit-result': (context) => EditResultScreen(),
         },
-        //FIXME:THIS LINE IS FOR DEVELOPMENT ONLY
-        // routes: {
-        //   '/view-member': (context) => ViewMemberScreen(),
-        // },
-        // BEFORE HERE
-        // initialRoute: initialRoute,
+        initialRoute: initialRoute,
         home: DashboardScreen(),
       ),
     );

@@ -31,7 +31,7 @@ class _ViewResultScreenState extends State<ViewResultScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('View Result'),
+        title: const Text('View Result'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(14.0),
@@ -43,7 +43,7 @@ class _ViewResultScreenState extends State<ViewResultScreen> {
           ),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(child: CircularProgressIndicator());
+              return const Center(child: CircularProgressIndicator());
             } else if (snapshot.hasError) {
               return Center(child: Text('Error: ${snapshot.error}'));
             } else if (snapshot.hasData) {
@@ -96,7 +96,7 @@ class _ViewResultScreenState extends State<ViewResultScreen> {
                             currTerm = "";
                           });
                         },
-                        child: Text('Clear'),
+                        child: const Text('Clear'),
                       ),
                     ],
                   ),
@@ -108,103 +108,98 @@ class _ViewResultScreenState extends State<ViewResultScreen> {
                                 height: 10,
                               ),
                               Table(
-                                  defaultVerticalAlignment:
-                                      TableCellVerticalAlignment.middle,
-                                  columnWidths: {
-                                    0: FlexColumnWidth(4),
-                                    1: FlexColumnWidth(2),
-                                    2: FlexColumnWidth(1),
-                                  },
-                                  // border: TableBorder.all(color: Colors.black),
-                                  children: [
-                                    TableRow(
-                                      children: [
-                                        Text(
-                                          'Subject Name',
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                          ),
+                                defaultVerticalAlignment:
+                                    TableCellVerticalAlignment.middle,
+                                columnWidths: const {
+                                  0: FlexColumnWidth(4),
+                                  1: FlexColumnWidth(2),
+                                  2: FlexColumnWidth(1),
+                                },
+                                // border: TableBorder.all(color: Colors.black),
+                                children: [
+                                  const TableRow(
+                                    children: [
+                                      Text(
+                                        'Subject Name',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
                                         ),
-                                        Text(
-                                          'Grade Level',
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                          textAlign: TextAlign.center,
+                                      ),
+                                      Text(
+                                        'Grade Level',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
                                         ),
-                                        SizedBox
-                                            .shrink(), // Empty cell for the edit button column
-                                      ],
-                                    ),
-                                    ...snapshot.data!.result!.map((item) {
-                                      if (item.term == currTerm) {
-                                        return TableRow(
-                                          children: [
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: Text(
-                                                  '${item.subjectId} ${item.subjectName!}'),
+                                        textAlign: TextAlign.center,
+                                      ),
+                                      SizedBox
+                                          .shrink(), // Empty cell for the edit button column
+                                    ],
+                                  ),
+                                  ...snapshot.data!.result!.map((item) {
+                                    if (item.term == currTerm) {
+                                      return TableRow(
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Text(
+                                                '${item.subjectId} ${item.subjectName!}'),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Text(
+                                              item.gradeLevel!,
+                                              textAlign: TextAlign.center,
                                             ),
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: Text(
+                                          ),
+                                          IconButton(
+                                            onPressed: () {
+                                              Provider.of<MembersProvider>(
+                                                      context,
+                                                      listen: false)
+                                                  .setProcessType(
+                                                'Edit',
+                                              );
+                                              Provider.of<MembersProvider>(
+                                                      context,
+                                                      listen: false)
+                                                  .setClassId(
+                                                snapshot.data!.student!.classId!
+                                                    .toString(),
+                                              );
+                                              Provider.of<SubjectProvider>(
+                                                      context,
+                                                      listen: false)
+                                                  .setGradeId(
+                                                item.gradeId!,
+                                              );
+                                              Provider.of<SubjectProvider>(
+                                                      context,
+                                                      listen: false)
+                                                  .setSubjectName(
+                                                item.subjectId!,
+                                              );
+                                              Provider.of<SubjectProvider>(
+                                                      context,
+                                                      listen: false)
+                                                  .setSubjectGrade(
                                                 item.gradeLevel!,
-                                                textAlign: TextAlign.center,
-                                              ),
-                                            ),
-                                            IconButton(
-                                              onPressed: () {
-                                                Provider.of<MembersProvider>(
-                                                        context,
-                                                        listen: false)
-                                                    .setProcessType(
-                                                  'Edit',
-                                                );
-                                                Provider.of<MembersProvider>(
-                                                        context,
-                                                        listen: false)
-                                                    .setClassId(
-                                                  snapshot
-                                                      .data!.student!.classId!
-                                                      .toString(),
-                                                );
-                                                Provider.of<SubjectProvider>(
-                                                        context,
-                                                        listen: false)
-                                                    .setGradeId(
-                                                  item.gradeId!,
-                                                );
-                                                Provider.of<SubjectProvider>(
-                                                        context,
-                                                        listen: false)
-                                                    .setSubjectName(
-                                                  item.subjectId!,
-                                                );
-                                                Provider.of<SubjectProvider>(
-                                                        context,
-                                                        listen: false)
-                                                    .setSubjectGrade(
-                                                  item.gradeLevel!,
-                                                );
-                                                Navigator.pushNamed(
-                                                    context, '/edit-result');
-                                              },
-                                              icon: Icon(Icons.edit),
-                                            ),
-                                          ],
-                                        );
-                                      } else {
-                                        return TableRow(
-                                            children: [SizedBox(), SizedBox()]);
-                                      }
-                                    }).toList(),
-                                  ]),
-                              // const SizedBox(
-                              //   height: 10,
-                              // ),
-                              Spacer(),
+                                              );
+                                              Navigator.pushNamed(
+                                                  context, '/edit-result');
+                                            },
+                                            icon: const Icon(Icons.edit),
+                                          ),
+                                        ],
+                                      );
+                                    } else {
+                                      return const TableRow(
+                                          children: [SizedBox(), SizedBox()]);
+                                    }
+                                  }).toList(),
+                                ],
+                              ),
+                              const Spacer(),
                               ElevatedButton(
                                 onPressed: () {
                                   Provider.of<MembersProvider>(context,
@@ -219,7 +214,7 @@ class _ViewResultScreenState extends State<ViewResultScreen> {
                                   );
                                   Navigator.pushNamed(context, '/edit-result');
                                 },
-                                child: Text('Add Result'),
+                                child: const Text('Add Result'),
                               ),
                               ElevatedButton(
                                 onPressed: () async {
@@ -228,20 +223,18 @@ class _ViewResultScreenState extends State<ViewResultScreen> {
 
                                   PdfHandler.openFile(pdfFile);
                                 },
-                                child: Text('Print'),
+                                child: const Text('Print'),
                               ),
                             ],
                           )
-                        : Container(
-                            child: Center(
-                              child: Text('test'),
-                            ),
+                        : const Center(
+                            child: Text('test'), //TODO: change this to no state
                           ),
                   ),
                 ],
               );
             } else {
-              return Center(child: Text('No data'));
+              return const Center(child: Text('No data'));
             }
           },
         ),

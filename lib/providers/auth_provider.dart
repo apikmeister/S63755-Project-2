@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:school_management/models/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthProvider extends ChangeNotifier {
@@ -26,12 +25,6 @@ class AuthProvider extends ChangeNotifier {
     } else {
       throw Exception('Failed to login');
     }
-  }
-
-  Future<bool> isLoggedIn() async {
-    final prefs = await SharedPreferences.getInstance();
-    final token = prefs.getString('token');
-    return _token != null;
   }
 
   Future<void> logout() async {

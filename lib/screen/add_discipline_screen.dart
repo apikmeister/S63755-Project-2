@@ -13,10 +13,10 @@ class AddDisciplineScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Add Discipline Record'),
+        title: const Text('Add Discipline Record'),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
+      body: const Padding(
+        padding: EdgeInsets.all(8.0),
         child: Column(
           children: [AddDisciplineForm()],
         ),
@@ -36,10 +36,6 @@ class AddDisciplineForm extends StatefulWidget {
 
 class _AddDisciplineFormState extends State<AddDisciplineForm> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  // TextEditingController dateController = TextEditingController(
-  //     text: DateFormat('yyyy-MM-dd').format(DateTime.now()));
-  // TextEditingController descriptionController = TextEditingController();
-  // TextEditingController scoreController = TextEditingController();
   String date = DateFormat('yyyy-MM-dd').format(DateTime.now()).toString();
   String description = '';
   String score = '';
@@ -73,7 +69,7 @@ class _AddDisciplineFormState extends State<AddDisciplineForm> {
             : DisciplineService().addDisciplineRecords(
                 context: context,
                 userId: Provider.of<MembersProvider>(context, listen: false)
-                    .getMemberId!, //FIXME:
+                    .getMemberId!, //FIXME: why?
                 incidentDate: date,
                 description: description,
                 score: score,
@@ -85,7 +81,7 @@ class _AddDisciplineFormState extends State<AddDisciplineForm> {
         future: isEdit ? fetchDisciplineRecord() : Future.value(Discipline()),
         builder: (BuildContext context, AsyncSnapshot<Discipline> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return CircularProgressIndicator(); // Show loading spinner while waiting for future to complete
+            return const CircularProgressIndicator(); // Show loading spinner while waiting for future to complete
           } else if (snapshot.hasError) {
             return Text('Error: ${snapshot.error}');
           } else {
@@ -94,7 +90,7 @@ class _AddDisciplineFormState extends State<AddDisciplineForm> {
               child: Column(
                 children: [
                   TextFormField(
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       labelText: 'Student ID',
                     ),
                     enabled: false,
@@ -107,13 +103,13 @@ class _AddDisciplineFormState extends State<AddDisciplineForm> {
                     decoration: InputDecoration(
                       labelText: 'Date',
                       suffixIcon: IconButton(
-                        icon: Icon(Icons.calendar_today),
+                        icon: const Icon(Icons.calendar_today),
                         onPressed: () async {
                           final DateTime? pickedDate = await showDatePicker(
                             context: context,
                             initialDate: DateTime.now(),
                             firstDate: DateTime.now()
-                                .subtract(Duration(days: 365 * 1)),
+                                .subtract(const Duration(days: 365 * 1)),
                             lastDate: DateTime.now(),
                           );
                           if (pickedDate != null) {
@@ -139,7 +135,7 @@ class _AddDisciplineFormState extends State<AddDisciplineForm> {
                   ),
                   TextFormField(
                     // controller: descriptionController,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       labelText: 'Description',
                     ),
                     initialValue: isEdit ? snapshot.data!.description! : '',
@@ -155,7 +151,7 @@ class _AddDisciplineFormState extends State<AddDisciplineForm> {
                   ),
                   TextFormField(
                     // controller: scoreController,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       labelText: 'Score',
                     ),
                     initialValue: isEdit ? snapshot.data!.score! : '',
@@ -177,7 +173,7 @@ class _AddDisciplineFormState extends State<AddDisciplineForm> {
                     onPressed: () {
                       submitForm();
                     },
-                    child: Text('Submit'),
+                    child: const Text('Submit'),
                   ),
                 ],
               ),
