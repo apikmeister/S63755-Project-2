@@ -6,6 +6,12 @@ class MembersProvider extends ChangeNotifier {
   String? memberId;
   String? disciplineId;
   String? classId;
+  String? protected;
+
+  void setProtected(String id) {
+    protected = id;
+    notifyListeners();
+  }
 
   void setClassId(String id) {
     classId = id;
@@ -38,4 +44,5 @@ class MembersProvider extends ChangeNotifier {
 
   String? get getDisciplineId => disciplineId;
   String? get getClassId => classId;
+  String? get getProtected => protected;
 }

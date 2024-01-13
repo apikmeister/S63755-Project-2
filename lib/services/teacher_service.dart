@@ -53,6 +53,7 @@ class TeacherService {
     required String gender,
     required String className, //FIXME: maybe doesn't need this
     required String schoolId,
+    required String icNo,
   }) async {
     try {
       String token = await getToken();
@@ -64,6 +65,7 @@ class TeacherService {
           'address': address,
           'gender': gender,
           'schoolId': schoolId,
+          'icNo': icNo,
         },
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
@@ -75,6 +77,7 @@ class TeacherService {
         res: res,
         context: context,
         onSuccess: () {
+          print(res.body);
           Navigator.pushReplacementNamed(context, '/dashboard');
           showSuccessToast(context, 'Teacher Added Successfully');
           // ScaffoldMessenger.of(context)

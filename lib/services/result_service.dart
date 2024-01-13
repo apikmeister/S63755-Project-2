@@ -162,4 +162,35 @@ class ResultService {
       //   ..showSnackBar(errorSnackBar('Error $e'));
     }
   }
+
+  Future<Results> getResultStudent({
+    required BuildContext context,
+    required String icNo,
+  }) async {
+    try {
+      http.Response res = await http.get(
+        Uri.parse('http://localhost:3000/result/$icNo'),
+      );
+
+      late final Results result;
+
+      httpErrorHandler(
+        res: res,
+        context: context,
+        onSuccess: () {
+          result = Results.fromJson(json.decode(res.body));
+        },
+      );
+      return result;
+    } catch (e) {
+      Navigator.pop(context);
+      showErrorToast(context, 'Error $e');
+      // ScaffoldMessenger.of(context).showSnackBar(
+      //   SnackBar(
+      //     content: Text('Error $e'),
+      //   ),
+      // );
+    }
+    return Results.fromJson({});
+  }
 }

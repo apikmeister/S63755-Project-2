@@ -123,16 +123,14 @@ class _LazyRowPaginationState extends State<LazyRowPagination> {
                     onPressed: () {
                       if (rendererContext.row.cells['className']!.value ==
                           'Class not assigned') {
-                        // ScaffoldMessenger.of(context)
-                        //   ..hideCurrentSnackBar()
-                        //   ..showSnackBar(
-                        //       errorSnackBar('Please assign class first!'));
                         showErrorToast(context, 'Please assign class first!');
                       } else {
                         Provider.of<MembersProvider>(context, listen: false)
                             .setMemberId(rendererContext
                                 .row.cells['userId']!.value
                                 .toString());
+                        Provider.of<MembersProvider>(context, listen: false)
+                            .setProtected('Protected');
 
                         Navigator.pushNamed(context, '/view-result');
                       }

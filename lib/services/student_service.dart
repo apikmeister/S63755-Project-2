@@ -254,6 +254,7 @@ class StudentService {
           'address': address,
           'gender': gender,
           'schoolId': schoolId,
+          'classId': className,
         },
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
@@ -267,6 +268,7 @@ class StudentService {
         onSuccess: () {
           Navigator.pushReplacementNamed(context, '/dashboard');
           showSuccessToast(context, 'User Updated Successfully');
+          print(res.body);
           // ScaffoldMessenger.of(context)
           //   ..hideCurrentSnackBar()
           //   ..showSnackBar(successSnackBar('Student Update Successfully'));

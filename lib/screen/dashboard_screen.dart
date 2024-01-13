@@ -60,7 +60,7 @@ class DashboardScreen extends StatelessWidget {
       backgroundColor: const Color(0xFFA842F8),
       appBar: AppBar(
         title: const Text('Dashboard Screen'),
-        // backgroundColor: Colors.deepPurple,
+        backgroundColor: Colors.transparent,
         elevation: 0,
         actions: [
           IconButton(
@@ -73,7 +73,10 @@ class DashboardScreen extends StatelessWidget {
               Navigator.pushNamedAndRemoveUntil(
                   context, '/login', (route) => false);
             },
-            icon: Icon(Icons.logout),
+            icon: const Icon(
+              Icons.logout,
+              color: Colors.white,
+            ),
           )
         ],
         automaticallyImplyLeading: false,

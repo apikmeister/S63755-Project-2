@@ -12,6 +12,7 @@ import 'package:school_management/screen/dashboard_screen.dart';
 import 'package:school_management/screen/edit_result_screen.dart';
 import 'package:school_management/screen/login_screen.dart';
 import 'package:school_management/screen/onboarding_screen.dart';
+import 'package:school_management/screen/request_result.dart';
 import 'package:school_management/screen/view_discipline_screen.dart';
 import 'package:school_management/screen/view_member_screen.dart';
 import 'package:school_management/screen/view_result_screen.dart';
@@ -73,14 +74,14 @@ class SchoolManagementApp extends StatelessWidget {
             Theme.of(context).textTheme,
           ),
           appBarTheme: AppBarTheme(
-            color: Colors.transparent,
+            color: Colors.deepPurple,
             foregroundColor: Colors.black,
             elevation: 0,
             iconTheme: const IconThemeData(
               color: Colors.black,
             ),
             titleTextStyle: GoogleFonts.inter(
-              color: Colors.black,
+              color: Colors.white,
               fontSize: 24,
               fontWeight: FontWeight.w600,
             ),
@@ -139,9 +140,10 @@ class SchoolManagementApp extends StatelessWidget {
           '/add-discipline': (context) => const AddDisciplineScreen(),
           '/view-result': (context) => const ViewResultScreen(),
           '/edit-result': (context) => EditResultScreen(),
+          '/check-result': (context) => RequestResultScreen(),
         },
         initialRoute: initialRoute,
-        home: LoginScreen(),
+        home: const LoginScreen(),
       ),
     );
   }

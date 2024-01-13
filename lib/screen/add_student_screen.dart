@@ -111,6 +111,7 @@ class _AddTeacherFormState extends State<AddTeacherForm> {
   String address = '';
   String gender = '';
   String className = '';
+  String icNo = '';
 
   void _submitForm() async {
     if (_formKey.currentState!.validate()) {
@@ -124,6 +125,7 @@ class _AddTeacherFormState extends State<AddTeacherForm> {
         gender: gender,
         className: className,
         schoolId: prefs.getString('schoolId')!,
+        icNo: icNo,
       );
     }
   }
@@ -135,6 +137,29 @@ class _AddTeacherFormState extends State<AddTeacherForm> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
+          TextFormField(
+            // cursorColor: Colors.red,
+            decoration: const InputDecoration(
+              // labelText: 'Name',
+              // floatingLabelBehavior: FloatingLabelBehavior.always,
+              prefixIcon: Icon(Icons.person),
+              hintText: 'Enter Ic No',
+            ),
+            // initialValue: processType == 'Edit'
+            //     ? snapshot.data!.member![0].icNo
+            //     : null,
+            validator: (value) {
+              if (value!.isEmpty) {
+                return 'Please enter first name.';
+              } else if (value.length > 12) {
+                return 'Please enter correct format';
+              }
+              return null;
+            },
+            onSaved: (value) {
+              icNo = value.toString();
+            },
+          ),
           TextFormField(
             decoration: const InputDecoration(
               prefixIcon: Icon(Icons.person),
@@ -397,6 +422,7 @@ class _AddStudentFormState extends State<AddStudentForm> {
       if (_formKey.currentState!.validate()) {
         _formKey.currentState!.save();
         if (processType == 'Edit') {
+          print(className);
           await studentService.updateStudent(
             context: context,
             userId: userId!,
@@ -654,7 +680,7 @@ class _AddStudentFormState extends State<AddStudentForm> {
                                 ),
                                 items: snapshot.data!
                                     .map((item) => DropdownMenuItem(
-                                          value: item.className,
+                                          value: item.className!,
                                           child: Row(
                                             children: [
                                               // Icon(
