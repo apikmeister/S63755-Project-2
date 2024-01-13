@@ -2,10 +2,13 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 import 'package:school_management/models/result.dart';
 import 'package:school_management/models/subject.dart';
+import 'package:school_management/providers/data_provider.dart';
 import 'package:school_management/utils/error_handler.dart';
 import 'package:school_management/utils/token_validator.dart';
+import 'package:school_management/widgets/shared/toast.dart';
 
 class ResultService {
   Future<Results> getResult({
@@ -33,11 +36,12 @@ class ResultService {
       );
       return result;
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Error $e'),
-        ),
-      );
+      showErrorToast(context, 'Error $e');
+      // ScaffoldMessenger.of(context).showSnackBar(
+      //   SnackBar(
+      //     content: Text('Error $e'),
+      //   ),
+      // );
     }
     return Results.fromJson({});
   }
@@ -49,7 +53,7 @@ class ResultService {
     try {
       String token = await getToken();
       http.Response res = await http.get(
-        Uri.parse('http://localhost:3000/api/subject/class/$classId'),
+        Uri.parse('http://localhost:3000/api/subject/subjects/$classId'),
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
           'Authorization': 'Bearer $token'
@@ -67,11 +71,13 @@ class ResultService {
       );
       return subjects;
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Error $e'),
-        ),
-      );
+      showErrorToast(context, 'Error $e');
+
+      // ScaffoldMessenger.of(context).showSnackBar(
+      //   SnackBar(
+      //     content: Text('Error $e'),
+      //   ),
+      // );
     }
     return SubjectList.fromJson({});
   }
@@ -102,16 +108,20 @@ class ResultService {
         res: res,
         context: context,
         onSuccess: () {
-          Navigator.pushReplacementNamed(context, '/dashboard');
-          ScaffoldMessenger.of(context)
-            ..hideCurrentSnackBar()
-            ..showSnackBar(successSnackBar('Result Added Successfully'));
+          Provider.of<DataNotifier>(context, listen: false).refresh();
+          Navigator.pop(context);
+          // Navigator.pushReplacementNamed(context, '/dashboard');
+          showSuccessToast(context, 'Result Added Successfully');
+          // ScaffoldMessenger.of(context)
+          //   ..hideCurrentSnackBar()
+          //   ..showSnackBar(successSnackBar('Result Added Successfully'));
         },
       );
     } catch (e) {
-      ScaffoldMessenger.of(context)
-        ..hideCurrentSnackBar()
-        ..showSnackBar(errorSnackBar('Error $e'));
+      showErrorToast(context, 'Error $e');
+      // ScaffoldMessenger.of(context)
+      //   ..hideCurrentSnackBar()
+      //   ..showSnackBar(errorSnackBar('Error $e'));
     }
   }
 
@@ -137,15 +147,19 @@ class ResultService {
           res: res,
           context: context,
           onSuccess: () {
-            Navigator.pushReplacementNamed(context, '/dashboard');
-            ScaffoldMessenger.of(context)
-              ..hideCurrentSnackBar()
-              ..showSnackBar(successSnackBar('Result Updated Successfully'));
+            Provider.of<DataNotifier>(context, listen: false).refresh();
+            Navigator.pop(context);
+            // Navigator.pushReplacementNamed(context, '/dashboard');
+            showSuccessToast(context, 'Result Updated Successfully');
+            // ScaffoldMessenger.of(context)
+            //   ..hideCurrentSnackBar()
+            //   ..showSnackBar(successSnackBar('Result Updated Successfully'));
           });
     } catch (e) {
-      ScaffoldMessenger.of(context)
-        ..hideCurrentSnackBar()
-        ..showSnackBar(errorSnackBar('Error $e'));
+      showErrorToast(context, 'Error $e');
+      // ScaffoldMessenger.of(context)
+      //   ..hideCurrentSnackBar()
+      //   ..showSnackBar(errorSnackBar('Error $e'));
     }
   }
 }

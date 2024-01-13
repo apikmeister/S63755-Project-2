@@ -7,6 +7,7 @@ import 'package:school_management/models/discipline.dart';
 import 'package:school_management/providers/data_provider.dart';
 import 'package:school_management/utils/error_handler.dart';
 import 'package:school_management/utils/token_validator.dart';
+import 'package:school_management/widgets/shared/toast.dart';
 
 class DisciplineService {
   Future<DisciplineRecords> getDisciplineRecords({
@@ -33,9 +34,10 @@ class DisciplineService {
 
       return records;
     } catch (e) {
-      ScaffoldMessenger.of(context)
-        ..hideCurrentSnackBar()
-        ..showSnackBar(errorSnackBar('Error $e'));
+      showErrorToast(context, 'Error $e');
+      // ScaffoldMessenger.of(context)
+      //   ..hideCurrentSnackBar()
+      //   ..showSnackBar(errorSnackBar('Error $e'));
     }
     return DisciplineRecords.fromJson({});
   }
@@ -66,15 +68,17 @@ class DisciplineService {
           context: context,
           onSuccess: () {
             Navigator.pushReplacementNamed(context, '/dashboard');
-            ScaffoldMessenger.of(context)
-              ..hideCurrentSnackBar()
-              ..showSnackBar(
-                  successSnackBar('Discipline Recorded Successfully'));
+            showSuccessToast(context, 'Discipline Recorded Successfully');
+            // ScaffoldMessenger.of(context)
+            //   ..hideCurrentSnackBar()
+            //   ..showSnackBar(
+            //       successSnackBar('Discipline Recorded Successfully'));
           });
     } catch (e) {
-      ScaffoldMessenger.of(context)
-        ..hideCurrentSnackBar()
-        ..showSnackBar(errorSnackBar('Error $e'));
+      showErrorToast(context, 'Error $e');
+      // ScaffoldMessenger.of(context)
+      //   ..hideCurrentSnackBar()
+      //   ..showSnackBar(errorSnackBar('Error $e'));
     }
   }
 
@@ -101,9 +105,10 @@ class DisciplineService {
           });
       return record;
     } catch (e) {
-      ScaffoldMessenger.of(context)
-        ..hideCurrentSnackBar()
-        ..showSnackBar(errorSnackBar('Error $e'));
+      showErrorToast(context, 'Error $e');
+      // ScaffoldMessenger.of(context)
+      //   ..hideCurrentSnackBar()
+      //   ..showSnackBar(errorSnackBar('Error $e'));
     }
     return Discipline();
   }
@@ -135,15 +140,18 @@ class DisciplineService {
         onSuccess: () {
           Provider.of<DataNotifier>(context, listen: false).refresh();
           Navigator.pop(context);
-          ScaffoldMessenger.of(context)
-            ..hideCurrentSnackBar()
-            ..showSnackBar(successSnackBar('Record Edited Successfully'));
+          showSuccessToast(context, 'Record Edited Successfully');
+          // ScaffoldMessenger.of(context)
+          //   ..hideCurrentSnackBar()
+          //   ..showSnackBar(successSnackBar('Record Edited Successfully'));
         },
       );
     } catch (e) {
-      ScaffoldMessenger.of(context)
-        ..hideCurrentSnackBar()
-        ..showSnackBar(errorSnackBar('Error $e'));
+      showErrorToast(context, 'Error $e');
+
+      // ScaffoldMessenger.of(context)
+      //   ..hideCurrentSnackBar()
+      //   ..showSnackBar(errorSnackBar('Error $e'));
     }
   }
 }

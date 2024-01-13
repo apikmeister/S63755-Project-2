@@ -37,18 +37,21 @@ class Member {
   String? grade;
   String? hireDate;
   String? updatedAt;
+  String? icNo;
 
-  Member(
-      {this.userId,
-      this.schoolId,
-      this.firstName,
-      this.lastName,
-      this.gender,
-      this.address,
-      this.role,
-      this.grade,
-      this.hireDate,
-      this.updatedAt});
+  Member({
+    this.userId,
+    this.schoolId,
+    this.firstName,
+    this.lastName,
+    this.gender,
+    this.address,
+    this.role,
+    this.grade,
+    this.hireDate,
+    this.updatedAt,
+    this.icNo,
+  });
 
   Member.fromJson(Map<String, dynamic> json) {
     userId = json['user_id'];
@@ -61,6 +64,7 @@ class Member {
     grade = json['grade'];
     hireDate = json['hire_date'];
     updatedAt = json['updated_at'];
+    icNo = json['ic_no'];
   }
 
   Map<String, dynamic> toJson() {
@@ -75,11 +79,12 @@ class Member {
     data['grade'] = this.grade;
     data['hire_date'] = this.hireDate;
     data['updated_at'] = this.updatedAt;
+    data['ic_no'] = this.icNo;
     return data;
   }
 
   @override
   String toString() {
-    return 'Member{userId: $userId, schoolId: $schoolId, firstName: $firstName, lastName: $lastName, gender: $gender, address: $address, role: $role, grade: $grade, hireDate: $hireDate, updatedAt: $updatedAt}';
+    return 'Member{userId: $userId, schoolId: $schoolId, firstName: $firstName, lastName: $lastName, gender: $gender, address: $address, role: $role, grade: $grade, hireDate: $hireDate, updatedAt: $updatedAt, icNo: $icNo}';
   }
 }

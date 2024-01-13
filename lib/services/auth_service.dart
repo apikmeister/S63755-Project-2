@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 import 'package:school_management/providers/school_provider.dart';
 import 'package:school_management/utils/error_handler.dart';
+import 'package:school_management/widgets/shared/toast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 // class AuthService {
@@ -73,6 +74,8 @@ class AuthSevice {
         onSuccess: () async {
           SharedPreferences prefs = await SharedPreferences.getInstance();
           prefs.setString('token', jsonDecode(res.body)['token']);
+          prefs.setString('schoolId', jsonDecode(res.body)['schoolId']);
+          prefs.setBool('isLoggedIn', true);
           Provider.of<SchoolProvider>(context, listen: false)
               .setSchoolId(jsonDecode(res.body)['schoolId']);
           Navigator.pushNamedAndRemoveUntil(
@@ -80,11 +83,12 @@ class AuthSevice {
         },
       );
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Error ${e.toString()}'),
-        ),
-      );
+      showErrorToast(context, e.toString());
+      // ScaffoldMessenger.of(context).showSnackBar(
+      //   SnackBar(
+      //     content: Text('Error ${e.toString()}'),
+      //   ),
+      // );
     }
   }
 

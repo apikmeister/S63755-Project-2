@@ -6,6 +6,7 @@ import 'package:pluto_grid/pluto_grid.dart';
 import 'package:school_management/models/teacher.dart';
 import 'package:school_management/utils/error_handler.dart';
 import 'package:school_management/utils/token_validator.dart';
+import 'package:school_management/widgets/shared/toast.dart';
 
 class TeacherService {
   Future<List<Teachers>> getAllTeacher({
@@ -34,11 +35,12 @@ class TeacherService {
       // return data;
       return teacher.teachers!;
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Error $e'),
-        ),
-      );
+      showErrorToast(context, 'Error $e');
+      // ScaffoldMessenger.of(context).showSnackBar(
+      //   SnackBar(
+      //     content: Text('Error $e'),
+      //   ),
+      // );
     }
     return [];
   }
@@ -74,15 +76,17 @@ class TeacherService {
         context: context,
         onSuccess: () {
           Navigator.pushReplacementNamed(context, '/dashboard');
-          ScaffoldMessenger.of(context)
-            ..hideCurrentSnackBar()
-            ..showSnackBar(successSnackBar('Teacher Added Successfully'));
+          showSuccessToast(context, 'Teacher Added Successfully');
+          // ScaffoldMessenger.of(context)
+          //   ..hideCurrentSnackBar()
+          //   ..showSnackBar(successSnackBar('Teacher Added Successfully'));
         },
       );
     } catch (e) {
-      ScaffoldMessenger.of(context)
-        ..hideCurrentSnackBar()
-        ..showSnackBar(errorSnackBar('Error $e'));
+      showErrorToast(context, 'Error $e');
+      // ScaffoldMessenger.of(context)
+      //   ..hideCurrentSnackBar()
+      //   ..showSnackBar(errorSnackBar('Error $e'));
     }
   }
 }

@@ -10,6 +10,8 @@ import 'package:school_management/providers/members_provider.dart';
 import 'package:school_management/services/student_service.dart';
 import 'package:school_management/services/teacher_service.dart';
 import 'package:school_management/utils/error_handler.dart';
+import 'package:school_management/widgets/shared/toast.dart';
+import 'package:toastification/toastification.dart';
 
 class LazyRowPagination extends StatefulWidget {
   const LazyRowPagination({super.key});
@@ -93,10 +95,11 @@ class _LazyRowPaginationState extends State<LazyRowPagination> {
                     onPressed: () {
                       if (rendererContext.row.cells['className']!.value ==
                           'Class not assigned') {
-                        ScaffoldMessenger.of(context)
-                          ..hideCurrentSnackBar()
-                          ..showSnackBar(
-                              errorSnackBar('Please assign class first!'));
+                        showErrorToast(context, 'Please assign class first!');
+                        // ScaffoldMessenger.of(context)
+                        //   ..hideCurrentSnackBar()
+                        //   ..showSnackBar(
+                        //       errorSnackBar('Please assign class first!'));
                       } else {
                         Provider.of<MembersProvider>(context, listen: false)
                             .setMemberId(rendererContext
@@ -120,10 +123,11 @@ class _LazyRowPaginationState extends State<LazyRowPagination> {
                     onPressed: () {
                       if (rendererContext.row.cells['className']!.value ==
                           'Class not assigned') {
-                        ScaffoldMessenger.of(context)
-                          ..hideCurrentSnackBar()
-                          ..showSnackBar(
-                              errorSnackBar('Please assign class first!'));
+                        // ScaffoldMessenger.of(context)
+                        //   ..hideCurrentSnackBar()
+                        //   ..showSnackBar(
+                        //       errorSnackBar('Please assign class first!'));
+                        showErrorToast(context, 'Please assign class first!');
                       } else {
                         Provider.of<MembersProvider>(context, listen: false)
                             .setMemberId(rendererContext
@@ -262,7 +266,9 @@ class _LazyRowPaginationState extends State<LazyRowPagination> {
       builder: (context, notifier, child) {
         return Scaffold(
           appBar: AppBar(
-            title: Text('Test'), //FIXME:
+            title: Text(
+              '${Provider.of<MembersProvider>(context, listen: false).memberType}s List',
+            ),
           ),
           body: PlutoGrid(
             columns: columns,

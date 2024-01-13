@@ -16,10 +16,10 @@ class ViewDisciplineScreen extends StatelessWidget {
       builder: (context, dataNotifier, child) {
         return Scaffold(
           appBar: AppBar(
-            title: const Text('View Discipline Records'),
+            title: const Text('Discipline Records'),
           ),
           body: Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(14.0),
             child: FutureBuilder(
               future: DisciplineService().getDisciplineRecords(
                 context: context,
@@ -60,6 +60,7 @@ class ViewDisciplineScreen extends StatelessWidget {
                           Text('Class: ${snapshot.data!.student!.className}'),
                         ],
                       ),
+                      SizedBox(height: 10),
                       Expanded(
                         child: SingleChildScrollView(
                           child: Column(
@@ -138,6 +139,9 @@ class ViewDisciplineScreen extends StatelessWidget {
                             style: const TextStyle(fontWeight: FontWeight.bold),
                           ),
                         ],
+                      ),
+                      const SizedBox(
+                        height: 10,
                       ),
                       ElevatedButton(
                         onPressed: () {

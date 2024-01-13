@@ -2,6 +2,7 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:school_management/models/subject.dart';
+import 'package:school_management/providers/data_provider.dart';
 import 'package:school_management/providers/members_provider.dart';
 import 'package:school_management/providers/subject_provider.dart';
 import 'package:school_management/services/result_service.dart';
@@ -50,7 +51,7 @@ class EditResultScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Edit Result Screen'),
+        title: Text(isEdit ? 'Edit Result' : 'Add Result'),
         backgroundColor: Colors.deepPurple,
         elevation: 0,
       ),
@@ -93,7 +94,8 @@ class EditResultScreen extends StatelessWidget {
                         : FutureBuilder<SubjectList>(
                             future: ResultService().getSubjects(
                               context: context,
-                              classId: '1',
+                              classId: Provider.of<MembersProvider>(context)
+                                  .getClassId!,
                             ),
                             builder: (BuildContext context,
                                 AsyncSnapshot<SubjectList> snapshot) {
@@ -237,7 +239,7 @@ class EditResultScreen extends StatelessWidget {
                 onPressed: () {
                   submitResult();
                 },
-                child: const Text('Update Result'),
+                child: Text(isEdit ? 'Update Result' : 'Add Result'),
               ),
             ],
           ),

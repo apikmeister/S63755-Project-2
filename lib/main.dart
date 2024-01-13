@@ -12,12 +12,9 @@ import 'package:school_management/screen/dashboard_screen.dart';
 import 'package:school_management/screen/edit_result_screen.dart';
 import 'package:school_management/screen/login_screen.dart';
 import 'package:school_management/screen/onboarding_screen.dart';
-import 'package:school_management/screen/record_discipline_screen.dart';
-import 'package:school_management/screen/test_screen.dart';
 import 'package:school_management/screen/view_discipline_screen.dart';
 import 'package:school_management/screen/view_member_screen.dart';
 import 'package:school_management/screen/view_result_screen.dart';
-import 'package:school_management/widgets/common/pluto_table.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
@@ -25,9 +22,18 @@ void main() async {
 
   SharedPreferences prefs = await SharedPreferences.getInstance();
   bool? isFirstTime = prefs.getBool('first_time');
+  bool? isLoggedIn = prefs.getBool('isLoggedIn');
 
-  String initialRoute =
-      isFirstTime == null || isFirstTime ? '/onboarding' : '/login';
+  String initialRoute;
+  if (isFirstTime == null || isFirstTime) {
+    initialRoute = '/onboarding';
+  } else if (isLoggedIn == true) {
+    initialRoute = '/dashboard';
+  } else {
+    initialRoute = '/login';
+  }
+  // String initialRoute =
+  //     isFirstTime == null || isFirstTime ? '/onboarding' : '/login';
   runApp(
     SchoolManagementApp(initialRoute: initialRoute),
   );
@@ -70,7 +76,7 @@ class SchoolManagementApp extends StatelessWidget {
             color: Colors.transparent,
             foregroundColor: Colors.black,
             elevation: 0,
-            iconTheme: IconThemeData(
+            iconTheme: const IconThemeData(
               color: Colors.black,
             ),
             titleTextStyle: GoogleFonts.inter(
@@ -124,18 +130,18 @@ class SchoolManagementApp extends StatelessWidget {
           ),
         ),
         routes: {
-          '/login': (context) => LoginScreen(),
+          '/login': (context) => const LoginScreen(),
           '/dashboard': (context) => DashboardScreen(),
-          '/onboarding': (context) => OnboardingScreen(),
-          '/view-member': (context) => ViewMemberScreen(),
-          '/add-member': (context) => AddStudentScreen(),
+          '/onboarding': (context) => const OnboardingScreen(),
+          '/view-member': (context) => const ViewMemberScreen(),
+          '/add-member': (context) => const AddStudentScreen(),
           '/view-discipline': (context) => ViewDisciplineScreen(),
-          '/add-discipline': (context) => AddDisciplineScreen(),
-          '/view-result': (context) => ViewResultScreen(),
+          '/add-discipline': (context) => const AddDisciplineScreen(),
+          '/view-result': (context) => const ViewResultScreen(),
           '/edit-result': (context) => EditResultScreen(),
         },
         initialRoute: initialRoute,
-        home: DashboardScreen(),
+        home: LoginScreen(),
       ),
     );
   }

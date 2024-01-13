@@ -41,3 +41,29 @@ class School {
     return data;
   }
 }
+
+class ClassSchool {
+  int? classId;
+  String? className;
+  String? schoolId;
+  String? classTeacherId;
+
+  ClassSchool(
+      {this.classId, this.className, this.schoolId, this.classTeacherId});
+
+  ClassSchool.fromJson(Map<String, dynamic> json) {
+    classId = json['class_id'];
+    className = json['class_name'];
+    schoolId = json['school_id'];
+    classTeacherId = json['class_teacher_id'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['class_id'] = this.classId;
+    data['class_name'] = this.className;
+    data['school_id'] = this.schoolId;
+    data['class_teacher_id'] = this.classTeacherId;
+    return data;
+  }
+}

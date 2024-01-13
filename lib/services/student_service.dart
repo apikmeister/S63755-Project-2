@@ -9,6 +9,7 @@ import 'package:school_management/models/student.dart';
 import 'package:school_management/providers/members_provider.dart';
 import 'package:school_management/utils/error_handler.dart';
 import 'package:school_management/utils/token_validator.dart';
+import 'package:school_management/widgets/shared/toast.dart';
 
 class StudentService {
   Future<List<Students>> getAllStudent({
@@ -42,9 +43,11 @@ class StudentService {
 
       return student.students!;
     } catch (e) {
-      ScaffoldMessenger.of(context)
-        ..hideCurrentSnackBar()
-        ..showSnackBar(errorSnackBar('Error $e'));
+      showErrorToast(context, 'Error $e');
+
+      // ScaffoldMessenger.of(context)
+      //   ..hideCurrentSnackBar()
+      //   ..showSnackBar(errorSnackBar('Error $e'));
     }
     return [];
   }
@@ -82,9 +85,10 @@ class StudentService {
 
       return student.students!;
     } catch (e) {
-      ScaffoldMessenger.of(context)
-        ..hideCurrentSnackBar()
-        ..showSnackBar(errorSnackBar('Error $e'));
+      showErrorToast(context, 'Error $e');
+      // ScaffoldMessenger.of(context)
+      //   ..hideCurrentSnackBar()
+      //   ..showSnackBar(errorSnackBar('Error $e'));
     }
     return [];
   }
@@ -112,9 +116,10 @@ class StudentService {
       );
       return student.totalPages!;
     } catch (e) {
-      ScaffoldMessenger.of(context)
-        ..hideCurrentSnackBar()
-        ..showSnackBar(errorSnackBar('Error $e'));
+      showErrorToast(context, 'Error $e');
+      // ScaffoldMessenger.of(context)
+      //   ..hideCurrentSnackBar()
+      //   ..showSnackBar(errorSnackBar('Error $e'));
     }
     return 0;
   }
@@ -150,15 +155,17 @@ class StudentService {
         context: context,
         onSuccess: () {
           Navigator.pushReplacementNamed(context, '/dashboard');
-          ScaffoldMessenger.of(context)
-            ..hideCurrentSnackBar()
-            ..showSnackBar(successSnackBar('Student Added Successfully'));
+          showSuccessToast(context, 'Student Added Successfully');
+          // ScaffoldMessenger.of(context)
+          //   ..hideCurrentSnackBar()
+          //   ..showSnackBar(successSnackBar('Student Added Successfully'));
         },
       );
     } catch (e) {
-      ScaffoldMessenger.of(context)
-        ..hideCurrentSnackBar()
-        ..showSnackBar(errorSnackBar('Error $e'));
+      showErrorToast(context, 'Error $e');
+      // ScaffoldMessenger.of(context)
+      //   ..hideCurrentSnackBar()
+      //   ..showSnackBar(errorSnackBar('Error $e'));
     }
   }
 
@@ -187,9 +194,10 @@ class StudentService {
       );
       return student;
     } catch (e) {
-      ScaffoldMessenger.of(context)
-        ..hideCurrentSnackBar()
-        ..showSnackBar(errorSnackBar('Error $e'));
+      showErrorToast(context, 'Error $e');
+      // ScaffoldMessenger.of(context)
+      //   ..hideCurrentSnackBar()
+      //   ..showSnackBar(errorSnackBar('Error $e'));
     }
     return Members();
   }
@@ -212,15 +220,17 @@ class StudentService {
         context: context,
         onSuccess: () {
           Navigator.pushNamed(context, '/dashboard');
-          ScaffoldMessenger.of(context)
-            ..hideCurrentSnackBar()
-            ..showSnackBar(successSnackBar('Student Deleted Successfully'));
+          showSuccessToast(context, 'Student Deleted Successfully');
+          // ScaffoldMessenger.of(context)
+          //   ..hideCurrentSnackBar()
+          //   ..showSnackBar(successSnackBar('Student Deleted Successfully'));
         },
       );
     } catch (e) {
-      ScaffoldMessenger.of(context)
-        ..hideCurrentSnackBar()
-        ..showSnackBar(errorSnackBar('Error $e'));
+      showErrorToast(context, 'Error $e');
+      // ScaffoldMessenger.of(context)
+      //   ..hideCurrentSnackBar()
+      //   ..showSnackBar(errorSnackBar('Error $e'));
     }
   }
 
@@ -256,15 +266,17 @@ class StudentService {
         context: context,
         onSuccess: () {
           Navigator.pushReplacementNamed(context, '/dashboard');
-          ScaffoldMessenger.of(context)
-            ..hideCurrentSnackBar()
-            ..showSnackBar(successSnackBar('Student Update Successfully'));
+          showSuccessToast(context, 'User Updated Successfully');
+          // ScaffoldMessenger.of(context)
+          //   ..hideCurrentSnackBar()
+          //   ..showSnackBar(successSnackBar('Student Update Successfully'));
         },
       );
     } catch (e) {
-      ScaffoldMessenger.of(context)
-        ..hideCurrentSnackBar()
-        ..showSnackBar(errorSnackBar('Error $e'));
+      showErrorToast(context, 'Error $e');
+      // ScaffoldMessenger.of(context)
+      //   ..hideCurrentSnackBar()
+      //   ..showSnackBar(errorSnackBar('Error $e'));
     }
   }
 }

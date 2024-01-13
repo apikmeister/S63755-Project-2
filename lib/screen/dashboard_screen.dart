@@ -12,6 +12,7 @@ import 'package:school_management/services/student_service.dart';
 import 'package:school_management/services/teacher_service.dart';
 import 'package:school_management/utils/token_validator.dart';
 import 'package:school_management/widgets/common/pluto_table.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class DashboardScreen extends StatelessWidget {
   StudentService studentService = StudentService();
@@ -23,10 +24,11 @@ class DashboardScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Future<int> getTotalStudents() async {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
       List<Students> students =
           await studentService.getAllStudentWithoutPagination(
         context: context,
-        schoolId: Provider.of<SchoolProvider>(context, listen: false).schoolId!,
+        schoolId: prefs.getString('schoolId')!,
         // page: 1,
         // rowsPerPage: 10,
       );
@@ -34,18 +36,23 @@ class DashboardScreen extends StatelessWidget {
     }
 
     Future<int> getTotalTeachers() async {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+
       List<Teachers> teachers = await teacherService.getAllTeacher(
         context: context,
-        schoolId: Provider.of<SchoolProvider>(context, listen: false).schoolId!,
+        // schoolId: Provider.of<SchoolProvider>(context, listen: false).schoolId!,
+        schoolId: prefs.getString('schoolId')!,
       );
       return teachers.length;
     }
 
     Future<School> getSchool() async {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+
       School school = await schoolService.getSchool(
-        context: context,
-        schoolId: Provider.of<SchoolProvider>(context, listen: false).schoolId!,
-      );
+          context: context,
+          // schoolId: Provider.of<SchoolProvider>(context, listen: false).schoolId!,
+          schoolId: prefs.getString('schoolId')!);
       return school;
     }
 
@@ -55,6 +62,21 @@ class DashboardScreen extends StatelessWidget {
         title: const Text('Dashboard Screen'),
         // backgroundColor: Colors.deepPurple,
         elevation: 0,
+        actions: [
+          IconButton(
+            onPressed: () async {
+              SharedPreferences prefs = await SharedPreferences.getInstance();
+              prefs.remove('token');
+              prefs.remove('schoolId');
+              prefs.setBool('isLoggedIn', false);
+
+              Navigator.pushNamedAndRemoveUntil(
+                  context, '/login', (route) => false);
+            },
+            icon: Icon(Icons.logout),
+          )
+        ],
+        automaticallyImplyLeading: false,
       ),
       body: TokenValidationWrapper(
         child: Column(
@@ -112,19 +134,24 @@ class DashboardScreen extends StatelessWidget {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Text(
-                                    snapshot.data!.schoolName ??
-                                        'No school name',
-                                    style: GoogleFonts.inter(
-                                      fontSize: 21,
-                                      fontWeight: FontWeight.w600,
-                                      color: Colors.black,
+                                  Container(
+                                    width: 200, // Adjust this value as needed
+                                    child: Text(
+                                      snapshot.data!.schoolName ??
+                                          'No school name',
+                                      style: GoogleFonts.inter(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.black,
+                                      ),
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 4,
                                     ),
                                   ),
                                   Text(
                                     snapshot.data!.schoolId ?? 'No school ID',
                                     style: GoogleFonts.inter(
-                                      fontSize: 21,
+                                      fontSize: 18,
                                       fontWeight: FontWeight.w600,
                                       color: Colors.black,
                                     ),

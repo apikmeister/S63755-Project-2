@@ -13,7 +13,7 @@ class AddDisciplineScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Add Discipline Record'),
+        title: const Text('Discipline Record'),
       ),
       body: const Padding(
         padding: EdgeInsets.all(8.0),

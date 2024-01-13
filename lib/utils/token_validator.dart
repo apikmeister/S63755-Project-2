@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:school_management/services/auth_service.dart';
 import 'package:school_management/utils/error_handler.dart';
+import 'package:school_management/widgets/shared/toast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class TokenValidationWrapper extends StatelessWidget {
@@ -27,10 +28,11 @@ class TokenValidationWrapper extends StatelessWidget {
         } else if (snapshot.hasError || !snapshot.data!) {
           // If the token is not valid, show a warning message and redirect to the login screen
           WidgetsBinding.instance!.addPostFrameCallback((_) {
-            ScaffoldMessenger.of(context)
-              ..hideCurrentSnackBar()
-              ..showSnackBar(
-                  errorSnackBar('Invalid token. Please log in again.'));
+            showErrorToast(context, 'Invalid token. Please log in again.');
+            // ScaffoldMessenger.of(context)
+            //   ..hideCurrentSnackBar()
+            //   ..showSnackBar(
+            //       errorSnackBar('Invalid token. Please log in again.'));
             Navigator.pushReplacementNamed(context, '/login');
           });
           return Container();
