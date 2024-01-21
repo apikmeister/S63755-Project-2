@@ -436,6 +436,7 @@ class _AddStudentFormState extends State<AddStudentForm> {
         } else {
           await studentService.addStudent(
             context: context,
+            icNo: icNo,
             firstName: firstName,
             lastName: lastName,
             address: address,

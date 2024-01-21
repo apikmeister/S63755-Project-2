@@ -126,6 +126,7 @@ class StudentService {
 
   Future<void> addStudent({
     required BuildContext context,
+    required String icNo,
     required String firstName,
     required String lastName,
     required String address,
@@ -138,6 +139,7 @@ class StudentService {
       http.Response res = await http.post(
         Uri.parse('http://localhost:3000/api/user/student/create/'),
         body: {
+          'icNo': icNo,
           'firstName': firstName,
           'lastName': lastName,
           'address': address,
@@ -154,6 +156,7 @@ class StudentService {
         res: res,
         context: context,
         onSuccess: () {
+          print(res.body);
           Navigator.pushReplacementNamed(context, '/dashboard');
           showSuccessToast(context, 'Student Added Successfully');
           // ScaffoldMessenger.of(context)
